@@ -2,6 +2,7 @@ import { Prisma, PrismaClient } from '@prisma/client'
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 dotenv.config()
 import express from 'express'
+const port = process.env.PORT
 
 const prisma = new PrismaClient()
 const app = express()
@@ -20,9 +21,9 @@ app.post(`/signup`, async (req, res) => {
       name,
       email,
       posts: {
-        create: postData,
-      },
-    },
+        create: postData
+      }
+    }
   })
   res.json(result)
 })
@@ -33,8 +34,8 @@ app.post(`/post`, async (req, res) => {
     data: {
       title,
       content,
-      author: { connect: { email: authorEmail } },
-    },
+      author: { connect: { email: authorEmail } }
+    }
   })
   res.json(result)
 })
@@ -47,9 +48,9 @@ app.put('/post/:id/views', async (req, res) => {
       where: { id: Number(id) },
       data: {
         viewCount: {
-          increment: 1,
-        },
-      },
+          increment: 1
+        }
+      }
     })
 
     res.json(post)
@@ -65,13 +66,13 @@ app.put('/publish/:id', async (req, res) => {
     const postData = await prisma.post.findUnique({
       where: { id: Number(id) },
       select: {
-        published: true,
-      },
+        published: true
+      }
     })
 
     const updatedPost = await prisma.post.update({
       where: { id: Number(id) || undefined },
-      data: { published: !postData?.published },
+      data: { published: !postData?.published }
     })
     res.json(updatedPost)
   } catch (error) {
@@ -83,8 +84,8 @@ app.delete(`/post/:id`, async (req, res) => {
   const { id } = req.params
   const post = await prisma.post.delete({
     where: {
-      id: Number(id),
-    },
+      id: Number(id)
+    }
   })
   res.json(post)
 })
@@ -100,11 +101,11 @@ app.get('/user/:id/drafts', async (req, res) => {
   const drafts = await prisma.user
     .findUnique({
       where: {
-        id: Number(id),
-      },
+        id: Number(id)
+      }
     })
     .posts({
-      where: { published: false },
+      where: { published: false }
     })
 
   res.json(drafts)
@@ -114,7 +115,7 @@ app.get(`/post/:id`, async (req, res) => {
   const { id }: { id?: string } = req.params
 
   const post = await prisma.post.findUnique({
-    where: { id: Number(id) },
+    where: { id: Number(id) }
   })
   res.json(post)
 })
@@ -126,29 +127,33 @@ app.get('/feed', async (req, res) => {
     ? {
         OR: [
           { title: { contains: searchString as string } },
-          { content: { contains: searchString as string } },
-        ],
+          { content: { contains: searchString as string } }
+        ]
       }
     : {}
 
   const posts = await prisma.post.findMany({
     where: {
       published: true,
-      ...or,
+      ...or
     },
     include: { author: true },
     take: Number(take) || undefined,
     skip: Number(skip) || undefined,
     orderBy: {
-      updatedAt: orderBy as Prisma.SortOrder,
-    },
+      updatedAt: orderBy as Prisma.SortOrder
+    }
   })
 
   res.json(posts)
 })
 
-const server = app.listen(3000, () =>
+app.get('/', async (req, res) => {
+  res.send('this is project-cheapskate')
+})
+
+const server = app.listen(port, () =>
   console.log(`
 🚀 Server ready at: http://localhost:3000
-⭐️ See sample requests: http://pris.ly/e/ts/rest-express#3-using-the-rest-api`),
+⭐️ See sample requests: http://pris.ly/e/ts/rest-express#3-using-the-rest-api`)
 )
