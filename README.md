@@ -1,321 +1,99 @@
-# REST API Example
+# side project - 小氣鬼的電影追蹤工具
 
-This example shows how to implement a **REST API with TypeScript** using [Express](https://expressjs.com/) and [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client). The example uses an SQLite database file with some initial dummy data which you can find at [`./prisma/dev.db`](./prisma/dev.db).
+<!-- PROJECT SHIELDS -->
 
-## Getting started
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
 
-### 1. Download example and install dependencies
+<!-- PROJECT LOGO -->
 
-Download this example:
+<p align="center">
+  <!-- 未來新增圖片用 -->
+  <!-- <a href="https://github.com/yongsin0129/project-cheapskate/">
+    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  </a> -->
 
-```
-curl https://codeload.github.com/prisma/prisma-examples/tar.gz/latest | tar -xz --strip=2 prisma-examples-latest/typescript/rest-express
-```
+  <h3 align="center">娛樂省錢第一解決方案</h3>
+  <p align="center">
+    一个"小氣鬼"心目中的娛樂省錢方案！
+    <br />
+    <a href="https://github.com/yongsin0129/project-cheapskate"><strong>探索本專案的檔案 »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/yongsin0129/project-cheapskate">查看README</a>
+    ·
+    <a href="https://github.com/yongsin0129/project-cheapskate/issues">回報Bug</a>
+    ·
+    <a href="https://github.com/yongsin0129/project-cheapskate/issues">提出新功能</a>
+  </p>
+</p>
 
-Install npm dependencies:
+## 目录
 
-```
-cd rest-express
-npm install
-```
+- [緣起](#緣起)
+- [功能](#功能)
+- [開發項目拆分](#開發項目拆分)
+  - [後端](#後端)
+  - [前端](#前端)
+- [作者](#作者)
+- [鳴謝](#鳴謝)
 
-<details><summary><strong>Alternative:</strong> Clone the entire repo</summary>
 
-Clone this repository:
 
-```
-git clone git@github.com:prisma/prisma-examples.git --depth=1
-```
+## 緣起
+小氣鬼因為本身很小氣，電影鮮少在首輪就去觀看，
 
-Install npm dependencies:
+總是將片名記在心中，等著進二輪片單或上串流時再來欣賞。
 
-```
-cd prisma-examples/typescript/rest-express
-npm install
-```
+但...人的記性總是不好，常常忘記這些感興趣的電影，等到有閒暇之餘時，落入無片可看的窘境。
 
-</details>
+於是這支 app 就開始進入開發階段。
 
-### 2. Create and seed the database
+## 功能
+- 使用者可以創建自已的帳號
+- 使用者可以創建自已的電影收藏清單
+- 使用者可以查看最新上線的首輪電影
+- 使用者可以查看最新上線的二輪電影
+- 當收藏清單中的電影進入二輪 or 串流時，收到通知 (預計用 lineBot 來通知)
 
-Run the following command to create your SQLite database file. This also creates the `User` and `Post` tables that are defined in [`prisma/schema.prisma`](./prisma/schema.prisma):
+## 開發項目拆分
+### 後端
+- movie data CRUD (wip)
+- 爬蟲抓取 movie data (wip)
+- 資料庫更新 movie data logic (not started)
+- swagger 建立 API 文檔 (not started)
+- user 會員系統 (not started)
 
-```
-npx prisma migrate dev --name init
-```
+### 前端
+- react 環境 init (not started)
+- 首頁 - 最新上架電影 (not started)
+- 分頁 - 所有首輪電影 (not started)
+- 分頁 - 所有二輪電影 (not started)
+- 分頁 - 加入追蹤的電影 (not started)
 
-When `npx prisma migrate dev` is executed against a newly created database, seeding is also triggered. The seed file in [`prisma/seed.ts`](./prisma/seed.ts) will be executed and your database will be populated with the sample data.
+## 作者
 
+永C
+yongsin0129@gmail.com
 
-### 3. Start the REST API server
+## 鳴謝
+增加中
 
-```
-npm run dev
-```
 
-The server is now running on `http://localhost:3000`. You can now run the API requests, e.g. [`http://localhost:3000/feed`](http://localhost:3000/feed).
+<!-- links -->
 
-## Using the REST API
+[your-project-path]: yongsin0129/project-cheapskate
 
-You can access the REST API of the server using the following endpoints:
+[contributors-shield]: https://img.shields.io/github/contributors/yongsin0129/project-cheapskate.svg?style=flat-square
+[contributors-url]: https://github.com/yongsin0129/project-cheapskate/graphs/contributors
 
-### `GET`
+[forks-shield]: https://img.shields.io/github/forks/yongsin0129/project-cheapskate.svg?style=flat-square
+[forks-url]: https://github.com/yongsin0129/project-cheapskate/network/members
 
-- `/post/:id`: Fetch a single post by its `id`
-- `/feed?searchString={searchString}&take={take}&skip={skip}&orderBy={orderBy}`: Fetch all _published_ posts
-  - Query Parameters
-    - `searchString` (optional): This filters posts by `title` or `content`
-    - `take` (optional): This specifies how many objects should be returned in the list
-    - `skip` (optional): This specifies how many of the returned objects in the list should be skipped
-    - `orderBy` (optional): The sort order for posts in either ascending or descending order. The value can either `asc` or `desc`
-- `/user/:id/drafts`: Fetch user's drafts by their `id`
-- `/users`: Fetch all users
-### `POST`
+[stars-shield]: https://img.shields.io/github/stars/yongsin0129/project-cheapskate.svg?style=flat-square
+[stars-url]: https://github.com/yongsin0129/project-cheapskate/stargazers
 
-- `/post`: Create a new post
-  - Body:
-    - `title: String` (required): The title of the post
-    - `content: String` (optional): The content of the post
-    - `authorEmail: String` (required): The email of the user that creates the post
-- `/signup`: Create a new user
-  - Body:
-    - `email: String` (required): The email address of the user
-    - `name: String` (optional): The name of the user
-    - `postData: PostCreateInput[]` (optional): The posts of the user
-
-### `PUT`
-
-- `/publish/:id`: Toggle the publish value of a post by its `id`
-- `/post/:id/views`: Increases the `viewCount` of a `Post` by one `id`
-
-### `DELETE`
-
-- `/post/:id`: Delete a post by its `id`
-
-
-## Evolving the app
-
-Evolving the application typically requires two steps:
-
-1. Migrate your database using Prisma Migrate
-1. Update your application code
-
-For the following example scenario, assume you want to add a "profile" feature to the app where users can create a profile and write a short bio about themselves.
-
-### 1. Migrate your database using Prisma Migrate
-
-The first step is to add a new table, e.g. called `Profile`, to the database. You can do this by adding a new model to your [Prisma schema file](./prisma/schema.prisma) file and then running a migration afterwards:
-
-```diff
-// ./prisma/schema.prisma
-
-model User {
-  id      Int      @default(autoincrement()) @id
-  name    String?
-  email   String   @unique
-  posts   Post[]
-+ profile Profile?
-}
-
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  viewCount Int      @default(0)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
-}
-
-+model Profile {
-+  id     Int     @default(autoincrement()) @id
-+  bio    String?
-+  user   User    @relation(fields: [userId], references: [id])
-+  userId Int     @unique
-+}
-```
-
-Once you've updated your data model, you can execute the changes against your database with the following command:
-
-```
-npx prisma migrate dev --name add-profile
-```
-
-This adds another migration to the `prisma/migrations` directory and creates the new `Profile` table in the database.
-
-### 2. Update your application code
-
-You can now use your `PrismaClient` instance to perform operations against the new `Profile` table. Those operations can be used to implement API endpoints in the REST API.
-
-#### 2.1 Add the API endpoint to your app
-
-Update your `index.ts` file by adding a new endpoint to your API:
-
-```ts
-app.post('/user/:id/profile', async (req, res) => {
-  const { id } = req.params
-  const { bio } = req.body
-
-  const profile = await prisma.profile.create({
-    data: {
-      bio,
-      user: {
-        connect: {
-          id: Number(id)
-        }
-      }
-    }
-  })
-
-  res.json(profile)
-})
-```
-
-#### 2.2 Testing out your new endpoint
-
-Restart your application server and test out your new endpoint.
-
-##### `POST`
-
-- `/user/:id/profile`: Create a new profile based on the user id
-  - Body:
-    - `bio: String` : The bio of the user
-
-
-<details><summary>Expand to view more sample Prisma Client queries on <code>Profile</code></summary>
-
-Here are some more sample Prisma Client queries on the new <code>Profile</code> model:
-
-##### Create a new profile for an existing user
-
-```ts
-const profile = await prisma.profile.create({
-  data: {
-    bio: 'Hello World',
-    user: {
-      connect: { email: 'alice@prisma.io' },
-    },
-  },
-})
-```
-
-##### Create a new user with a new profile
-
-```ts
-const user = await prisma.user.create({
-  data: {
-    email: 'john@prisma.io',
-    name: 'John',
-    profile: {
-      create: {
-        bio: 'Hello World',
-      },
-    },
-  },
-})
-```
-
-##### Update the profile of an existing user
-
-```ts
-const userWithUpdatedProfile = await prisma.user.update({
-  where: { email: 'alice@prisma.io' },
-  data: {
-    profile: {
-      update: {
-        bio: 'Hello Friends',
-      },
-    },
-  },
-})
-```
-
-</details>
-
-## Switch to another database (e.g. PostgreSQL, MySQL, SQL Server, MongoDB)
-
-If you want to try this example with another database than SQLite, you can adjust the the database connection in [`prisma/schema.prisma`](./prisma/schema.prisma) by reconfiguring the `datasource` block. 
-
-Learn more about the different connection configurations in the [docs](https://www.prisma.io/docs/reference/database-reference/connection-urls).
-
-<details><summary>Expand for an overview of example configurations with different databases</summary>
-
-### PostgreSQL
-
-For PostgreSQL, the connection URL has the following structure:
-
-```prisma
-datasource db {
-  provider = "postgresql"
-  url      = "postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA"
-}
-```
-
-Here is an example connection string with a local PostgreSQL database:
-
-```prisma
-datasource db {
-  provider = "postgresql"
-  url      = "postgresql://janedoe:mypassword@localhost:5432/notesapi?schema=public"
-}
-```
-
-### MySQL
-
-For MySQL, the connection URL has the following structure:
-
-```prisma
-datasource db {
-  provider = "mysql"
-  url      = "mysql://USER:PASSWORD@HOST:PORT/DATABASE"
-}
-```
-
-Here is an example connection string with a local MySQL database:
-
-```prisma
-datasource db {
-  provider = "mysql"
-  url      = "mysql://janedoe:mypassword@localhost:3306/notesapi"
-}
-```
-
-### Microsoft SQL Server
-
-Here is an example connection string with a local Microsoft SQL Server database:
-
-```prisma
-datasource db {
-  provider = "sqlserver"
-  url      = "sqlserver://localhost:1433;initial catalog=sample;user=sa;password=mypassword;"
-}
-```
-
-### MongoDB
-
-Here is an example connection string with a local MongoDB database:
-
-```prisma
-datasource db {
-  provider = "mongodb"
-  url      = "mongodb://USERNAME:PASSWORD@HOST/DATABASE?authSource=admin&retryWrites=true&w=majority"
-}
-```
-Because MongoDB is currently in [Preview](https://www.prisma.io/docs/about/releases#preview), you need to specify the `previewFeatures` on your `generator` block:
-
-```
-generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["mongodb"]
-}
-```
-</details>
-
-## Next steps
-
-- Check out the [Prisma docs](https://www.prisma.io/docs)
-- Share your feedback in the [`prisma2`](https://prisma.slack.com/messages/CKQTGR6T0/) channel on the [Prisma Slack](https://slack.prisma.io/)
-- Create issues and ask questions on [GitHub](https://github.com/prisma/prisma/)
-- Watch our biweekly "What's new in Prisma" livestreams on [Youtube](https://www.youtube.com/channel/UCptAHlN1gdwD89tFM3ENb6w)
+[issues-shield]: https://img.shields.io/github/issues/yongsin0129/project-cheapskate.svg?style=flat-square
+[issues-url]: https://github.com/yongsin0129/project-cheapskate/issues
