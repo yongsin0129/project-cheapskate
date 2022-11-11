@@ -7,21 +7,23 @@ datasource db {
   url      = env("postgreSQL_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+model MovieList {
+  id          String   @id @default(uuid())
+  title       String
+  releaseDate String
+  url         String?
+  status      Status   @default(notReleased)
+  createAt    DateTime @default(now())
+  updataAt    DateTime @updatedAt
+
+  @@unique([title, releaseDate])
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  viewCount Int      @default(0)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+enum Status {
+  notReleased
+  firstRound
+  leaveFirstRound
+  secondRound
+  leavesecondRound
+  Streaming
 }

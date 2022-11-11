@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node src/index.ts"
+    "dev": "set NODE_ENV=development&& nodemon --exec ts-node src/index.ts",
+    "start": "npm run build && set NODE_ENV=production&& node dist/src/index.js",
+    "build": "tsc"
   },
   "dependencies": {
     "@prisma/client": "4.6.0",
