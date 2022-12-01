@@ -15,17 +15,28 @@ interface MovieData {
   movieReleaseDate: string
 }
 
+interface Log {
+  date: string
+  message: string
+  data: any[]
+}
+
 async function main () {
+  // 記錄本次程式執行的時間
+  console.log(new Date().toLocaleString('zh-TW', { timeZone: 'Asia/taipei' }))
+
   // 取得 資料庫中首輪的電影清單
   const databaseMovieList = await getDatabaseMovieList(Status.firstRound)
+  console.log('成功執行資料庫取資料')
 
   // 取得 網站上最新的首輪電影清單
   const onlineMovieList = await getOnlineMovieList(URL_FirstRound)
+  console.log('成功執行網站爬蟲取資料')
 
   // 將網站上最新的首輪電影清單加入到資料庫
   await addNewMovieToDatabase(onlineMovieList, databaseMovieList)
 
-  // 比較 資料庫與網站資料
+  // 比較 資料庫與網站資料 並 更新 status
   await updateFirstRoundMovieList(databaseMovieList, onlineMovieList)
 }
 
@@ -36,6 +47,13 @@ async function updateFirstRoundMovieList (
   databaseMovieList: Prisma.MovieListMaxAggregateOutputType[],
   onlineMovieList: MovieData[]
 ) {
+  // log init
+  const log: Log = {
+    date: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/taipei' }),
+    message: '本次資料庫中有狀態變更的電影',
+    data: []
+  }
+
   // 製做一個最新網路清單的 string 用來比對
   const onlineMovieList_Title_ReleaseDate = JSON.stringify(
     onlineMovieList.map(MovieData => {
@@ -64,11 +82,14 @@ async function updateFirstRoundMovieList (
             status: Status.leaveFirstRound
           }
         })
-        console.log('----------本次狀態更改的電影----------')
-        console.log(needUpdateMovieData)
+
+        log.data.push({ title_releaseDate, ...needUpdateMovieData })
       }
     }
   }
+
+  // 輸出 log
+  console.log(log)
 }
 
 // 取得資料庫中的電影清單 by status
@@ -83,17 +104,22 @@ async function getDatabaseMovieList (status: Status) {
 async function getOnlineMovieList (URL: string) {
   const movieList: MovieData[] = []
 
-  const response = await axios.get(URL)
-  const $ = cheerio.load(response.data)
+  try {
+    const response = await axios.get(URL)
+    const $ = cheerio.load(response.data)
 
-  $('ul.filmListPA li').each((i, el) => {
-    const movieTitle = $(el).find('a').text()
-    const movieUrl = host + $(el).find('a').attr('href')
-    const movieReleaseDate = formatReleaseDate($(el).find('span').text())
+    $('ul.filmListPA li').each((i, el) => {
+      const movieTitle = $(el).find('a').text()
+      const movieUrl = host + $(el).find('a').attr('href')
+      const movieReleaseDate = formatReleaseDate($(el).find('span').text())
 
-    const movieData: MovieData = { movieTitle, movieUrl, movieReleaseDate }
-    movieList.push(movieData)
-  })
+      const movieData: MovieData = { movieTitle, movieUrl, movieReleaseDate }
+      movieList.push(movieData)
+    })
+  } catch (error) {
+    console.log('網站爬蟲出現問題')
+    console.log(error)
+  }
 
   return movieList
 }
@@ -111,6 +137,13 @@ async function addNewMovieToDatabase (
   onlineMovieList: MovieData[],
   databaseMovieList: Prisma.MovieListMaxAggregateOutputType[]
 ) {
+  // log init
+  const log: Log = {
+    date: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/taipei' }),
+    message: '本次新增至資料庫中的首輪電影',
+    data: []
+  }
+
   // 製做一個現有資料庫的 string 用來比對
   const databaseMovieList_Title_ReleaseDate = JSON.stringify(
     databaseMovieList.map(MovieData => {
@@ -121,7 +154,7 @@ async function addNewMovieToDatabase (
   for (let index = 0; index < onlineMovieList.length; index++) {
     const movieData = onlineMovieList[index]
     const title_releaseDate = movieData.movieTitle + movieData.movieReleaseDate
-    
+
     // 先檢查最新的首輪電影資料有無存在 database 之中，若有則跳過
     if (
       databaseMovieList_Title_ReleaseDate.includes(title_releaseDate) === true
@@ -139,8 +172,8 @@ async function addNewMovieToDatabase (
           status: Status.firstRound
         }
       })
-      console.log('----------本次更新添加的電影----------')
-      console.log(newMovieData)
+      // 將新增資料寫進 log 中
+      log.data?.push({ title_releaseDate, ...newMovieData })
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -150,9 +183,13 @@ async function addNewMovieToDatabase (
           ...error,
           msg: 'There is a unique constraint violation, a new data cannot be created with this title & releaseDate'
         }
+        log.data?.push({ title_releaseDate, errorMsg })
       } else {
-        console.log(error)
+        log.data?.push({ title_releaseDate, error })
       }
     }
   }
+
+  // 輸出 log
+  console.log(log)
 }
