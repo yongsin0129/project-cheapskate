@@ -21,7 +21,27 @@ interface Log {
   data: any[]
 }
 
-async function main () {
+/********************************************************************************
+*
+          router
+*
+*********************************************************************************/
+router.post('/', async (req, res, next) => {
+  // 確認 request 的 passwordId
+  const { passwordId } = req.body
+  if (passwordId !== process.env.passwordId) {
+    res.send('密碼錯誤，無法呼叫更新')
+    return
+  }
+
+  // log init
+  const returnMessage: Log = {
+    date: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/taipei' }),
+    message: '執行首輪電影清單新增與狀態更新',
+    data: []
+  }
+
+  // main function
   // 記錄本次程式執行的時間
   console.log(new Date().toLocaleString('zh-TW', { timeZone: 'Asia/taipei' }))
 
@@ -34,13 +54,29 @@ async function main () {
   console.log('成功執行網站爬蟲取資料')
 
   // 將網站上最新的首輪電影清單加入到資料庫
-  await addNewMovieToDatabase(onlineMovieList, databaseMovieList)
+  const newInputDataLog = await addNewMovieToDatabase(
+    onlineMovieList,
+    databaseMovieList
+  )
 
   // 比較 資料庫與網站資料 並 更新 status
-  await updateFirstRoundMovieList(databaseMovieList, onlineMovieList)
-}
+  const newUpdateDataLog = await updateFirstRoundMovieList(
+    databaseMovieList,
+    onlineMovieList
+  )
 
-main()
+  // returnMessage
+  returnMessage.data.push(newInputDataLog, newUpdateDataLog)
+  res.send(returnMessage)
+})
+
+export default router
+
+/********************************************************************************
+*
+          functions
+*
+*********************************************************************************/
 
 // 由資料庫中的電影清單比對最新網路清單，並進行更新
 async function updateFirstRoundMovieList (
@@ -90,6 +126,7 @@ async function updateFirstRoundMovieList (
 
   // 輸出 log
   console.log(log)
+  return log
 }
 
 // 取得資料庫中的電影清單 by status
@@ -192,4 +229,5 @@ async function addNewMovieToDatabase (
 
   // 輸出 log
   console.log(log)
+  return log
 }
