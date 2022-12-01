@@ -1,0 +1,16 @@
+name: Call API-add and update firstRound movie list
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+
+  # 允許你從 Action 頁簽上手動執行 workflow
+  workflow_dispatch:
+
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call add and update firstRound movie list route
+        #         run: echo trigger add and update firstRound movie list
+        run: curl -X POST https://project-cheapskate-testing-yongsin0129.vercel.app/api/crawler -d "passwordId=${{secrets.PASSWORDID}}"
