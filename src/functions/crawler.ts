@@ -15,6 +15,8 @@ export async function getDatabaseMovieList (status: Status) {
   const movieList = await prisma.movieList.findMany({
     where: { status }
   })
+  await prisma.$disconnect()
+
   return movieList
 }
 
@@ -38,12 +40,14 @@ export async function getOnlineMovieList (URL: string) {
     console.log('網站爬蟲出現問題')
     console.log(error)
   }
+  await prisma.$disconnect()
 
   return movieList
 }
 
 // 由資料庫中的電影清單比對最新網路清單，並更新到指定狀態
-export async function updateFirstRoundMovieList (
+// FirstRound or SecondRound change to leaveStatus
+export async function updateMovieListStatus (
   databaseMovieList: Prisma.MovieListMaxAggregateOutputType[],
   onlineMovieList: MovieData[],
   statusChange: Status
@@ -93,6 +97,7 @@ export async function updateFirstRoundMovieList (
 
   // server side output log
   console.log(log)
+  await prisma.$disconnect()
 
   return log
 }
@@ -159,6 +164,63 @@ export async function addNewMovieToDatabase (
 
   // server side output log
   console.log(log)
+  await prisma.$disconnect()
+
+  return log
+}
+
+// 由資料庫中的已離開首輪OR二輪的電影清單比對最新網路清單，並更新到指定狀態
+// LeaveFirstRound or LeaveSecondRound change to nextStage
+export async function updateLeaveRoundToNextStatus (
+  databaseMovieList: Prisma.MovieListMaxAggregateOutputType[],
+  onlineMovieList: MovieData[],
+  statusChange: Status
+) {
+  // log init
+  const log: Log = {
+    date: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/taipei' }),
+    message: `本次資料庫中狀態變更為 ${statusChange} 的電影`,
+    data: []
+  }
+
+  // 製做一個現有資料庫的 string 用來比對
+  const databaseMovieList_Title_ReleaseDate = JSON.stringify(
+    databaseMovieList.map(MovieData => {
+      return MovieData.title! + MovieData.releaseDate!
+    })
+  )
+
+  // 遍歷資料庫中所有的每一筆資料
+  for (let index = 0; index < onlineMovieList.length; index++) {
+    const data = onlineMovieList[index]
+
+    const title_releaseDate = data.movieTitle + data.movieReleaseDate
+
+    if (databaseMovieList_Title_ReleaseDate.includes(title_releaseDate)) {
+      // 如果重複，表示該電影資料可進入 二輪 or 串流
+      const needUpdateMovieData = await prisma.movieList.update({
+        where: {
+          title_releaseDate: {
+            title: data.movieTitle,
+            releaseDate: data.movieReleaseDate
+          }
+        },
+        data: {
+          status: statusChange
+        }
+      })
+
+      // 將有狀態變更的電影資料加入 log 中
+      log.data.push({ title_releaseDate, ...needUpdateMovieData })
+    } else {
+      // 如果沒有重複，不作動作
+      continue
+    }
+  }
+
+  // server side output log
+  console.log(log)
+  await prisma.$disconnect()
 
   return log
 }

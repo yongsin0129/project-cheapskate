@@ -1,12 +1,14 @@
 import express from 'express'
 const router = express.Router()
-import { movieList } from '../../controllers/movieList'
+import { movieListController } from '../../controllers/movieList-controller'
 import checkPasswordId from '../../middleware/checkPasswordId'
 /********************************************************************************
 *
           router
 *
 *********************************************************************************/
-router.post('/', checkPasswordId, movieList.updateFirstRoundMovieList)
+router.post('/updateFirstRoundMovieList', checkPasswordId, movieListController.updateFirstRoundMovieList)
+
+router.post('/updateSecondRoundMovieList', checkPasswordId, movieListController.updateSecondRoundMovieList)
 
 export default router
