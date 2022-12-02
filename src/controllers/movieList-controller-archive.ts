@@ -15,17 +15,20 @@ const returnMessage: Log = {
 /********************************************************************************
 *
           controllers
+
+          archive 原因 : 因為現階段部屬在 vercel serverless 的服務上          
+          它有每個 request 在 server 上最長只能執行 10sec 的限制，用下面的寫法會造成與資料庫溝通時間過長。
+          所以需要拆開來寫
 *
 *********************************************************************************/
 export const movieListController = {
-
-  // 新增首輪 ( FirstRound )電影清單
-  addFirstRoundMovie: async (
+  // 更新首輪 ( FirstRound )電影清單
+  updateFirstRoundMovieList: async (
     req: Request,
     res: Response,
     next: NextFunction
   ) => {
-    returnMessage.message = '新增首輪清單'
+    returnMessage.message = '首輪清單更新'
 
     // 取得 資料庫中首輪的電影清單
     const databaseMovieList = await crawler.getDatabaseMovieList(
@@ -44,31 +47,6 @@ export const movieListController = {
       Status.firstRound
     )
 
-    // returnMessage
-    returnMessage.data = []
-    returnMessage.data.push(newInputDataLog)
-
-    res.send(returnMessage)
-  },
-
-  // 更新首輪 ( FirstRound )電影清單
-  updateFirstRoundMovieList: async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    returnMessage.message = '資料庫中首輪清單更新'
-
-    // 取得 資料庫中首輪的電影清單
-    const databaseMovieList = await crawler.getDatabaseMovieList(
-      Status.firstRound
-    )
-    console.log('成功執行資料庫取首輪的電影清單')
-
-    // 取得 網站上最新的首輪電影清單
-    const onlineMovieList = await crawler.getOnlineMovieList(URL_FirstRound)
-    console.log('成功執行網站爬蟲取首輪的電影清單')
-
     // 比較 資料庫與網站資料 並更新 status 至 leaveFirstRound
     const newUpdateDataLog = await crawler.updateMovieListStatus(
       databaseMovieList,
@@ -78,18 +56,18 @@ export const movieListController = {
 
     // returnMessage
     returnMessage.data = []
-    returnMessage.data.push(newUpdateDataLog)
+    returnMessage.data.push(newInputDataLog, newUpdateDataLog)
 
     res.send(returnMessage)
   },
 
-  // 更新 離開首輪 ( leaveFirstRound ) 的電影清單
-  updateLeaveFirstRoundMovie: async (
+  // 更新 二輪 ( secondRound ) 的電影清單
+  updateSecondRoundMovieList: async (
     req: Request,
     res: Response,
     next: NextFunction
   ) => {
-    returnMessage.message = ' 離開首輪清單 更新'
+    returnMessage.message = '二輪清單更新'
 
     // 取得 資料庫中離開首輪的電影清單
     const leaveFirstRoundMovieList = await crawler.getDatabaseMovieList(
@@ -109,25 +87,6 @@ export const movieListController = {
         Status.secondRound
       )
 
-    // returnMessage
-    returnMessage.data = []
-    returnMessage.data.push(newUpdateDataInLeaveFirstRound)
-
-    res.send(returnMessage)
-  },
-
-  // 新增 二輪 ( secondRound ) 的電影清單
-  addSecondRoundMovie: async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    returnMessage.message = '新增二輪清單'
-
-    // 取得 網站上最新的二輪電影清單
-    const onlineMovieList = await crawler.getOnlineMovieList(URL_SecondRound)
-    console.log('成功執行網站爬蟲取二輪的電影清單')
-
     // 取得 資料庫中二輪的電影清單
     const secondRoundMovieList = await crawler.getDatabaseMovieList(
       Status.secondRound
@@ -141,31 +100,6 @@ export const movieListController = {
       Status.secondRound
     )
 
-    // returnMessage
-    returnMessage.data = []
-    returnMessage.data.push(newInputDataLog)
-
-    res.send(returnMessage)
-  },
-
-  // 更新 二輪 ( secondRound ) 的電影清單
-  updateSecondRoundMovie: async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    returnMessage.message = '二輪清單 更新'
-
-    // 取得 網站上最新的二輪電影清單
-    const onlineMovieList = await crawler.getOnlineMovieList(URL_SecondRound)
-    console.log('成功執行網站爬蟲取二輪的電影清單')
-
-    // 取得 資料庫中二輪的電影清單
-    const secondRoundMovieList = await crawler.getDatabaseMovieList(
-      Status.secondRound
-    )
-    console.log('成功執行資料庫取得二輪的電影清單')
-
     // 比較 資料庫與網站資料 並更新 status 至 leaveSecondRound
     const newUpdateDataLog = await crawler.updateMovieListStatus(
       secondRoundMovieList,
@@ -175,7 +109,11 @@ export const movieListController = {
 
     // returnMessage
     returnMessage.data = []
-    returnMessage.data.push(newUpdateDataLog)
+    returnMessage.data.push(
+      newUpdateDataInLeaveFirstRound,
+      newInputDataLog,
+      newUpdateDataLog
+    )
 
     res.send(returnMessage)
   }

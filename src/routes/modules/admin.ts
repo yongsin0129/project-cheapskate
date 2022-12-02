@@ -7,8 +7,16 @@ import checkPasswordId from '../../middleware/checkPasswordId'
           router
 *
 *********************************************************************************/
+router.post('/addFirstRoundMovie', checkPasswordId, movieListController.addFirstRoundMovie)
+
 router.post('/updateFirstRoundMovieList', checkPasswordId, movieListController.updateFirstRoundMovieList)
 
-router.post('/updateSecondRoundMovieList', checkPasswordId, movieListController.updateSecondRoundMovieList)
+router.post('/updateLeaveFirstRoundMovie', checkPasswordId, movieListController.updateLeaveFirstRoundMovie
+)
 
+router.post('/addSecondRoundMovie', checkPasswordId, movieListController.addSecondRoundMovie
+)
+
+router.post('/updateSecondRoundMovie', checkPasswordId, movieListController.updateSecondRoundMovie
+)
 export default router
