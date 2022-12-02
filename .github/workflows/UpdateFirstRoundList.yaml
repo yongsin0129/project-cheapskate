@@ -1,26 +1,30 @@
-name: Call API-add and update firstRound movie list
+name: Call API-update movieList database
 
 on:
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: '0 */3 * * *'
 
   # 允許你從 Action 頁簽上手動執行 workflow
   workflow_dispatch:
 
 jobs:
-  cron:
+  test_schedule:
     runs-on: ubuntu-latest
     steps:
-      - name: Call add and update firstRound movie list route
+      - name: Call addFirstRoundMovie
         #         run: echo trigger add and update firstRound movie list
-        run: curl -X POST https://project-cheapskate-testing-yongsin0129.vercel.app/api/crawler -d "passwordId=${{secrets.PASSWORDID}}"
+        run: curl -X POST https://project-cheapskate-testing-yongsin0129.vercel.app/api/admin/addFirstRoundMovie -d "passwordId=${{secrets.PASSWORDID}}"
+      - name: Call updateFirstRoundMovieList
+        #         run: echo trigger add and update firstRound movie list
+        run: curl -X POST https://project-cheapskate-testing-yongsin0129.vercel.app/api/admin/updateFirstRoundMovieList -d "passwordId=${{secrets.PASSWORDID}}"
+      - name: Call updateLeaveFirstRoundMovie
+        #         run: echo trigger add and update firstRound movie list
+        run: curl -X POST https://project-cheapskate-testing-yongsin0129.vercel.app/api/admin/updateLeaveFirstRoundMovie -d "passwordId=${{secrets.PASSWORDID}}"
+      - name: Call addSecondRoundMovie
+        #         run: echo trigger add and update firstRound movie list
+        run: curl -X POST https://project-cheapskate-testing-yongsin0129.vercel.app/api/admin/addSecondRoundMovie -d "passwordId=${{secrets.PASSWORDID}}"
+      - name: Call updateSecondRoundMovie
+        #         run: echo trigger add and update firstRound movie list
+        run: curl -X POST https://project-cheapskate-testing-yongsin0129.vercel.app/api/admin/updateSecondRoundMovie -d "passwordId=${{secrets.PASSWORDID}}"
 
-# jobs:
-#   cron:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v3
-#         with:
-#           ref: testing
-#       - run: |
-#           curl -X POST https://project-cheapskate-testing-yongsin0129.vercel.app/api/crawler -d "passwordId=${{secrets.PASSWORDID}}"
+
