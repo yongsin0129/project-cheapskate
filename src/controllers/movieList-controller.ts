@@ -26,6 +26,7 @@ export const movieListController = {
     next: NextFunction
   ) => {
     returnMessage.message = '新增首輪清單'
+    console.log('addFirstRoundMovie')
 
     // 取得 資料庫中首輪的電影清單
     const databaseMovieList = await crawler.getDatabaseMovieList(
@@ -58,6 +59,7 @@ export const movieListController = {
     next: NextFunction
   ) => {
     returnMessage.message = '資料庫中首輪清單更新'
+    console.log('updateFirstRoundMovieList')
 
     // 取得 資料庫中首輪的電影清單
     const databaseMovieList = await crawler.getDatabaseMovieList(
@@ -90,6 +92,7 @@ export const movieListController = {
     next: NextFunction
   ) => {
     returnMessage.message = ' 離開首輪清單 更新'
+    console.log('updateLeaveFirstRoundMovie')
 
     // 取得 資料庫中離開首輪的電影清單
     const leaveFirstRoundMovieList = await crawler.getDatabaseMovieList(
@@ -123,6 +126,7 @@ export const movieListController = {
     next: NextFunction
   ) => {
     returnMessage.message = '新增二輪清單'
+    console.log('addSecondRoundMovie')
 
     // 取得 網站上最新的二輪電影清單
     const onlineMovieList = await crawler.getOnlineMovieList(URL_SecondRound)
@@ -155,6 +159,7 @@ export const movieListController = {
     next: NextFunction
   ) => {
     returnMessage.message = '二輪清單 更新'
+    console.log('updateSecondRoundMovie')
 
     // 取得 網站上最新的二輪電影清單
     const onlineMovieList = await crawler.getOnlineMovieList(URL_SecondRound)
