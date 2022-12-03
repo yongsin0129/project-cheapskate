@@ -11,9 +11,11 @@ const host = 'http://www.atmovies.com.tw'
 *
 *********************************************************************************/
 // 取得資料庫中的電影清單 by status
-export async function getDatabaseMovieList (status: Status) {
+export async function getDatabaseMovieList (status: { status: Status }[]) {
   const movieList = await prisma.movieList.findMany({
-    where: { status }
+    where: {
+      OR: [...status]
+    }
   })
   await prisma.$disconnect()
 
