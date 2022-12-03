@@ -60,11 +60,12 @@
 
 ## 開發項目拆分
 ### 後端
+- 爬蟲抓取 movie data (done)
+- 資料庫更新 movie data logic (done)
+- swagger 建立 API 文檔 (wip)
 - movie data CRUD (wip)
-- 爬蟲抓取 movie data (wip)
-- 資料庫更新 movie data logic (not started)
-- swagger 建立 API 文檔 (not started)
-- user 會員系統 (not started)
+- user 會員系統 (wip)
+- user 收藏清單 (not started)
 
 ### 前端
 - react 環境 init (not started)
