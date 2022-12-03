@@ -91,6 +91,9 @@ export async function updateMovieListStatus (
 
         // 將有狀態變更的電影資料加入 log 中
         log.data.push({ title_releaseDate, ...needUpdateMovieData })
+        console.log(
+          `本次資料庫中狀態變更為 ${statusChange} 的電影 : ` + title_releaseDate
+        )
       }
     }
   }
@@ -146,6 +149,9 @@ export async function addNewMovieToDatabase (
 
       // 將新增資料寫進 log 中
       log.data.push({ title_releaseDate, ...newMovieData })
+      console.log(
+        `本次新增至資料庫中的 ${statusChange} 電影 : ` + title_releaseDate
+      )
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
