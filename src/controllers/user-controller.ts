@@ -73,7 +73,6 @@ export const userController = {
   },
 
   test: async (req: Request, res: Response, next: NextFunction) => {
-    
     res.send(req.user)
   }
 }
