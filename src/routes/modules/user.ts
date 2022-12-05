@@ -8,4 +8,6 @@ import { userController } from '../../controllers/user-controller'
 *********************************************************************************/
 router.post('/signUp', userController.register)
 
+router.post('/signIn', userController.signIn)
+
 export default router
