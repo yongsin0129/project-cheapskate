@@ -18,7 +18,6 @@ export const passportInit = (passport: passport.PassportStatic) => {
 
   passport.use(
     new JwtStrategy(opts, function (jwt_payload: JwtPayLoad, done) {
-      console.log('JwtStrategy trigger')
       const user = jwt_payload
       return done(null, user)
 
