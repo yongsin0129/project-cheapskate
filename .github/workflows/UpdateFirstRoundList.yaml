@@ -2,7 +2,7 @@ name: Call API-update movieList database
 
 on:
   schedule:
-    - cron: '0 */3 * * *'
+    - cron: '0 */12 * * *'
 
   # 允許你從 Action 頁簽上手動執行 workflow
   workflow_dispatch:
@@ -12,19 +12,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Call addFirstRoundMovie
-        #         run: echo trigger add and update firstRound movie list
-        run: curl -X POST https://project-cheapskate-testing-yongsin0129.vercel.app/api/admin/addFirstRoundMovie -d "passwordId=${{secrets.PASSWORDID}}"
+        #         run: echo trigger addFirstRoundMovie
+        run: curl -X POST https://project-cheapskate.onrender.com/api/admin/addFirstRoundMovie -d "passwordId=${{secrets.PASSWORDID}}"
       - name: Call updateFirstRoundMovieList
-        #         run: echo trigger add and update firstRound movie list
-        run: curl -X POST https://project-cheapskate-testing-yongsin0129.vercel.app/api/admin/updateFirstRoundMovieList -d "passwordId=${{secrets.PASSWORDID}}"
+        #         run: echo trigger updateFirstRoundMovieList
+        run: curl -X POST https://project-cheapskate.onrender.com/api/admin/updateFirstRoundMovieList -d "passwordId=${{secrets.PASSWORDID}}"
       - name: Call updateLeaveFirstRoundMovie
-        #         run: echo trigger add and update firstRound movie list
-        run: curl -X POST https://project-cheapskate-testing-yongsin0129.vercel.app/api/admin/updateLeaveFirstRoundMovie -d "passwordId=${{secrets.PASSWORDID}}"
+        #         run: echo trigger updateLeaveFirstRoundMovie
+        run: curl -X POST https://project-cheapskate.onrender.com/api/admin/updateLeaveFirstRoundMovie -d "passwordId=${{secrets.PASSWORDID}}"
       - name: Call addSecondRoundMovie
-        #         run: echo trigger add and update firstRound movie list
-        run: curl -X POST https://project-cheapskate-testing-yongsin0129.vercel.app/api/admin/addSecondRoundMovie -d "passwordId=${{secrets.PASSWORDID}}"
+        #         run: echo trigger addSecondRoundMovie
+        run: curl -X POST https://project-cheapskate.onrender.com/api/admin/addSecondRoundMovie -d "passwordId=${{secrets.PASSWORDID}}"
       - name: Call updateSecondRoundMovie
-        #         run: echo trigger add and update firstRound movie list
-        run: curl -X POST https://project-cheapskate-testing-yongsin0129.vercel.app/api/admin/updateSecondRoundMovie -d "passwordId=${{secrets.PASSWORDID}}"
+        #         run: echo trigger updateSecondRoundMovie
+        run: curl -X POST https://project-cheapskate.onrender.com/api/admin/updateSecondRoundMovie -d "passwordId=${{secrets.PASSWORDID}}"
 
 
