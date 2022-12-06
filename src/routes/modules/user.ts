@@ -9,10 +9,43 @@ import { jwtAuthenticate } from '../../middleware/auth'
           router
 *
 *********************************************************************************/
-router.post('/signUp', userController.register)
+router.post(
+  '/signUp',
 
-router.post('/signIn', userController.signIn)
+  /*  
+  #swagger.summary = '使用者註冊新帳號'
+  #swagger.responses[200] = {
+            description: 'register successfully',
+            schema: { $ref: '#/definitions/response'}
+          }
+  */
 
-router.get('/test', jwtAuthenticate, userController.test)
+  userController.register
+)
+
+router.post('/signIn',
+
+  /*  
+  #swagger.summary = '使用者登入並取得 jwt token'
+  #swagger.responses[200] = {
+            description: 'logIn successfully',
+            schema: {   
+                      "success": true,
+                      "data": [{ user: {} , jwtToken: {} }],
+                      "error": {},
+                      "message": "some message"
+                    }
+          }
+  */
+
+userController.signIn)
+
+router.get('/test',
+
+  /*  
+  #swagger.summary = '測試 jwt token 專用的路由'
+  */
+
+jwtAuthenticate, userController.test)
 
 export default router
