@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "set NODE_ENV=development&& nodemon --exec ts-node src/index.ts",
-    "start": "set NODE_ENV=production&& ts-node src/index.ts",
+    "start": "npm run swagger-autogen&& set NODE_ENV=production&& ts-node src/index.ts",
     "build": "tsc",
     "swagger-autogen": "ts-node ./swagger.ts"
   },

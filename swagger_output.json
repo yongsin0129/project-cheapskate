@@ -5,8 +5,8 @@
     "title": "小氣鬼的電影追蹤工具",
     "description": "一个\"小氣鬼\"心目中的娛樂省錢方案！"
   },
-  "host": "https://project-cheapskate-yongsin0129.vercel.app",
-  "basePath": "",
+  "host": "project-cheapskate-yongsin0129.vercel.app",
+  "basePath": "/",
   "tags": [
     {
       "name": "admin",
@@ -18,23 +18,14 @@
     },
     {
       "name": "movieList",
-      "description": "電影清單的路由"
+      "description": "電影清單的路由 制做中，還沒有完成"
     }
   ],
-  "schemes": [],
+  "schemes": [
+    "https"
+  ],
   "securityDefinitions": {},
   "paths": {
-    "/api/": {
-      "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/movieList/": {
       "get": {
         "tags": [
@@ -135,10 +126,29 @@
         ],
         "summary": "使用爬蟲比對，並新增首輪 ( FirstRound ) 電影清單至資料庫中",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "passwordId",
+            "in": "body",
+            "description": "每次呼叫爬蟲更新都需要密碼",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "passwordId": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "update successfully",
+            "schema": {
+              "$ref": "#/definitions/updateMovieListResponse"
+            }
           }
         }
       }
@@ -150,10 +160,29 @@
         ],
         "summary": "使用爬蟲比對，並將首輪下架電影更改狀態至 leaveFirstRound",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "passwordId",
+            "in": "body",
+            "description": "每次呼叫爬蟲更新都需要密碼",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "passwordId": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "update successfully",
+            "schema": {
+              "$ref": "#/definitions/updateMovieListResponse"
+            }
           }
         }
       }
@@ -165,10 +194,29 @@
         ],
         "summary": "使用爬蟲比對，並將狀態為 leaveFirstRound 的電影清單更新至二輪電影 (secondRound)",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "passwordId",
+            "in": "body",
+            "description": "每次呼叫爬蟲更新都需要密碼",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "passwordId": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "update successfully",
+            "schema": {
+              "$ref": "#/definitions/updateMovieListResponse"
+            }
           }
         }
       }
@@ -180,10 +228,29 @@
         ],
         "summary": "使用爬蟲比對，並新增二輪 ( secondRound ) 電影清單至資料庫中",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "passwordId",
+            "in": "body",
+            "description": "每次呼叫爬蟲更新都需要密碼",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "passwordId": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "update successfully",
+            "schema": {
+              "$ref": "#/definitions/updateMovieListResponse"
+            }
           }
         }
       }
@@ -195,10 +262,29 @@
         ],
         "summary": "使用爬蟲比對，並將二輪下架電影更改狀態至 leaveSecondRound",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "passwordId",
+            "in": "body",
+            "description": "每次呼叫爬蟲更新都需要密碼",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "passwordId": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "update successfully",
+            "schema": {
+              "$ref": "#/definitions/updateMovieListResponse"
+            }
           }
         }
       }
@@ -208,6 +294,7 @@
         "tags": [
           "user"
         ],
+        "summary": "使用者註冊新帳號",
         "description": "",
         "parameters": [
           {
@@ -229,7 +316,14 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "register successfully",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
       }
     },
     "/api/user/signIn": {
@@ -237,6 +331,7 @@
         "tags": [
           "user"
         ],
+        "summary": "使用者登入並取得 jwt token",
         "description": "",
         "parameters": [
           {
@@ -255,7 +350,47 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "logIn successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "user": {
+                        "type": "object",
+                        "properties": {}
+                      },
+                      "jwtToken": {
+                        "type": "object",
+                        "properties": {}
+                      }
+                    }
+                  }
+                },
+                "error": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "message": {
+                  "type": "string",
+                  "example": "some message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
       }
     },
     "/api/user/test": {
@@ -263,12 +398,55 @@
         "tags": [
           "user"
         ],
+        "summary": "測試 jwt token 專用的路由",
         "description": "",
         "parameters": [],
         "responses": {
           "200": {
             "description": "OK"
           }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "updateMovieListResponse": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "example": "2022/12/6 下午12:51:29"
+        },
+        "message": {
+          "type": "string",
+          "example": "some message"
+        },
+        "data": {
+          "type": "array",
+          "example": [],
+          "items": {}
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": true
+        },
+        "data": {
+          "type": "array",
+          "example": [],
+          "items": {}
+        },
+        "error": {
+          "type": "object",
+          "properties": {}
+        },
+        "message": {
+          "type": "string",
+          "example": "some message"
         }
       }
     }

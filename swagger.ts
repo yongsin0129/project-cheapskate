@@ -15,9 +15,9 @@ const doc = {
     title: '小氣鬼的電影追蹤工具', // by default: "REST API"
     description: '一个"小氣鬼"心目中的娛樂省錢方案！' // by default: ""
   },
-  host: 'https://project-cheapskate-yongsin0129.vercel.app', // by default: "localhost:3000"
-  basePath: '', // by default: "/"
-  schemes: [], // by default: ['http']
+  host: 'project-cheapskate-yongsin0129.vercel.app', // by default: "localhost:3000"
+  basePath: '/', // by default: "/"
+  schemes: ['https'], // by default: ['http']
   consumes: [], // by default: ['application/json']
   produces: [], // by default: ['application/json']
   tags: [
@@ -32,12 +32,24 @@ const doc = {
     },
     {
       name: 'movieList', // Tag name
-      description: '電影清單的路由' // Tag description
+      description: '電影清單的路由 制做中，還沒有完成' // Tag description
     }
     // { ... }
   ],
   securityDefinitions: {}, // by default: empty object
-  definitions: {},
+  definitions: {
+    updateMovieListResponse: {
+      date: '2022/12/6 下午12:51:29',
+      message: 'some message',
+      data: []
+    },
+    response:{
+      success: true,
+      data: [],
+      error: {},
+      message:'some message'
+    }
+  },
   components: {}
 }
 

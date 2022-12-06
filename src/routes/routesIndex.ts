@@ -22,10 +22,6 @@ router.use(
   user
 )
 
-router.get('/', async (req, res) => {
-  res.send('this is api index')
-})
-
 router.use(errorHandler)
 
 export default router
