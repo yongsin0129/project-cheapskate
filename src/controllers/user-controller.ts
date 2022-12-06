@@ -70,5 +70,10 @@ export const userController = {
         res.send(error)
       }
     })
+  },
+
+  test: async (req: Request, res: Response, next: NextFunction) => {
+    
+    res.send(req.user)
   }
 }
