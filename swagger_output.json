@@ -1,0 +1,454 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "小氣鬼的電影追蹤工具",
+    "description": "一个\"小氣鬼\"心目中的娛樂省錢方案！"
+  },
+  "host": "project-cheapskate-yongsin0129.vercel.app/",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "admin",
+      "description": "管理者使用的各種路由，包括 : [ 更新電影清單資料庫... ] "
+    },
+    {
+      "name": "user",
+      "description": "使用者登入驗證的路由"
+    },
+    {
+      "name": "movieList",
+      "description": "電影清單的路由 制做中，還沒有完成"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {},
+  "paths": {
+    "/api/movieList/": {
+      "get": {
+        "tags": [
+          "movieList"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "searchString",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "orderBy",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "movieList"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "any"
+                },
+                "releaseDate": {
+                  "example": "any"
+                },
+                "url": {
+                  "example": "any"
+                },
+                "status": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "movieList"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "movieList"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/addFirstRoundMovie": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "使用爬蟲比對，並新增首輪 ( FirstRound ) 電影清單至資料庫中",
+        "description": "",
+        "parameters": [
+          {
+            "name": "passwordId",
+            "in": "body",
+            "description": "每次呼叫爬蟲更新都需要密碼",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "passwordId": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "update successfully",
+            "schema": {
+              "$ref": "#/definitions/updateMovieListResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/updateFirstRoundMovieList": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "使用爬蟲比對，並將首輪下架電影更改狀態至 leaveFirstRound",
+        "description": "",
+        "parameters": [
+          {
+            "name": "passwordId",
+            "in": "body",
+            "description": "每次呼叫爬蟲更新都需要密碼",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "passwordId": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "update successfully",
+            "schema": {
+              "$ref": "#/definitions/updateMovieListResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/updateLeaveFirstRoundMovie": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "使用爬蟲比對，並將狀態為 leaveFirstRound 的電影清單更新至二輪電影 (secondRound)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "passwordId",
+            "in": "body",
+            "description": "每次呼叫爬蟲更新都需要密碼",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "passwordId": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "update successfully",
+            "schema": {
+              "$ref": "#/definitions/updateMovieListResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/addSecondRoundMovie": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "使用爬蟲比對，並新增二輪 ( secondRound ) 電影清單至資料庫中",
+        "description": "",
+        "parameters": [
+          {
+            "name": "passwordId",
+            "in": "body",
+            "description": "每次呼叫爬蟲更新都需要密碼",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "passwordId": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "update successfully",
+            "schema": {
+              "$ref": "#/definitions/updateMovieListResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/updateSecondRoundMovie": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "使用爬蟲比對，並將二輪下架電影更改狀態至 leaveSecondRound",
+        "description": "",
+        "parameters": [
+          {
+            "name": "passwordId",
+            "in": "body",
+            "description": "每次呼叫爬蟲更新都需要密碼",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "passwordId": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "update successfully",
+            "schema": {
+              "$ref": "#/definitions/updateMovieListResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/user/signUp": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "使用者註冊新帳號",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                },
+                "password_confirmation": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "register successfully",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      }
+    },
+    "/api/user/signIn": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "使用者登入並取得 jwt token",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "logIn successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "user": {
+                        "type": "object",
+                        "properties": {}
+                      },
+                      "jwtToken": {
+                        "type": "object",
+                        "properties": {}
+                      }
+                    }
+                  }
+                },
+                "error": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "message": {
+                  "type": "string",
+                  "example": "some message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/test": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "測試 jwt token 專用的路由",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "updateMovieListResponse": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "example": "2022/12/6 下午12:51:29"
+        },
+        "message": {
+          "type": "string",
+          "example": "some message"
+        },
+        "data": {
+          "type": "array",
+          "example": [],
+          "items": {}
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": true
+        },
+        "data": {
+          "type": "array",
+          "example": [],
+          "items": {}
+        },
+        "error": {
+          "type": "object",
+          "properties": {}
+        },
+        "message": {
+          "type": "string",
+          "example": "some message"
+        }
+      }
+    }
+  }
+}

@@ -6,15 +6,23 @@ import errorHandler from '../controllers/errorHandler'
 
 const router = express.Router()
 
-router.use('/movieList', movieList)
+router.use('/movieList',
+// #swagger.tags = ['movieList']
+movieList)
 
-router.use('/admin', admin)
+router.use(
+  '/admin',
+  // #swagger.tags = ['admin']
+  admin
+)
 
-router.use('/user', user)
+router.use(
+  '/user',
+  // #swagger.tags = ['user']
+  user
+)
 
-router.get('/', async (req, res) => {
-  res.send('this is api index')
-})
+router.use(errorHandler)
 
 router.use(errorHandler)
 
