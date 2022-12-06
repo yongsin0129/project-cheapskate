@@ -4,6 +4,7 @@ const prisma = new PrismaClient()
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import * as validator from '../functions/validation'
+import response from '../functions/response'
 
 export const userController = {
   register: async (req: Request, res: Response, next: NextFunction) => {
@@ -16,14 +17,24 @@ export const userController = {
 
     // 使用 validation
     const { error } = validator.registerValidation(registerInputData)
-    if (error) return res.send(error.details[0].message)
+    if (error) {
+      return new response({
+        responseStatusCode: 400,
+        error: error,
+        message: error.details[0].message
+      }).sendResToClient(res)
+    }
 
     // 查詢 此 email 有無使用
     const user = await prisma.user.findUnique({
       where: { email: req.body.email }
     })
-    if (user) return res.send('此 email 已經註冊過了 !!')
-    else {
+    if (user) {
+      return new response({
+        responseStatusCode: 400,
+        message: '此 email 已經註冊過了 !!'
+      }).sendResToClient(res)
+    } else {
       try {
         const createdUser = await prisma.user.create({
           data: {
@@ -31,9 +42,18 @@ export const userController = {
             password: bcrypt.hashSync(req.body.password, 10)
           }
         })
-        return res.send({ success: true, user: createdUser })
+        createdUser.password = ''
+        return new response({
+          responseStatusCode: 200,
+          success: true,
+          data: [{ createdUser }],
+          message: '註冊成功 !!'
+        }).sendResToClient(res)
       } catch (error) {
-        return res.send(error)
+        return new response({
+          responseStatusCode: 500,
+          error: error
+        }).sendResToClient(res)
       }
     }
   },
@@ -47,26 +67,49 @@ export const userController = {
 
     // 使用 validation
     const { error } = validator.loginValidation(logInInputData)
-    if (error) return res.send(error.details[0].message)
+    if (error)
+      return new response({
+        responseStatusCode: 400,
+        error: error,
+        message: error.details[0].message
+      }).sendResToClient(res)
 
     // 查詢 email 使用者
     const user = await prisma.user.findUnique({
       where: { email: req.body.email }
     })
-    if (!user) return res.send({ success: false, message: '無此使用者' })
+    if (!user)
+      return new response({
+        responseStatusCode: 400,
+        message: '無此使用者'
+      }).sendResToClient(res)
+
     bcrypt.compare(req.body.password, user.password).then(resultBoolean => {
       try {
         if (resultBoolean === false)
-          return res.send({ success: false, message: '密碼錯誤' })
+          return new response({
+            responseStatusCode: 400,
+            message: '密碼錯誤'
+          }).sendResToClient(res)
+
         if (resultBoolean === true) {
           const tokenObject = { id: user.id, email: user.email }
           const jwtToken = jwt.sign(tokenObject, process.env.jwt_Secret!, {
             expiresIn: '30 days'
           })
-          res.send({ success: true, data: user, jwtToken })
+          user.password = ''
+          return new response({
+            responseStatusCode: 200,
+            success: true,
+            data: [{ user, jwtToken }],
+            message: '登入成功'
+          }).sendResToClient(res)
         }
       } catch (error) {
-        res.send(error)
+        return new response({
+          responseStatusCode: 500,
+          error: error
+        }).sendResToClient(res)
       }
     })
   },
