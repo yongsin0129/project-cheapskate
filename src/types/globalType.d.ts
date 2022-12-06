@@ -9,3 +9,10 @@ interface Log {
   message: string
   data: any[]
 }
+
+interface ResponseObj {
+  success: Boolean
+  data: any[]
+  error: {}
+  message: string
+}
