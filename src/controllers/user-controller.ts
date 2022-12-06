@@ -4,7 +4,6 @@ const prisma = new PrismaClient()
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import * as validator from '../functions/validation'
-import {} from '../functions/user-functions'
 
 export const userController = {
   register: async (req: Request, res: Response, next: NextFunction) => {

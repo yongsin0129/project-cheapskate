@@ -7,7 +7,7 @@ export default function errorHandler (
   next: NextFunction
 ) {
   let responseStatusCode = 500
-  let responseObj = {
+  let responseObj:ResponseObj = {
     success: false,
     data: [],
     error: err,
