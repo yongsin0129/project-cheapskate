@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("postgreSQL_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model MovieList {
@@ -17,6 +18,14 @@ model MovieList {
   updataAt    DateTime @updatedAt
 
   @@unique([title, releaseDate])
+}
+
+model User {
+  id       String   @id @default(uuid())
+  email    String   @unique
+  password String
+  createAt DateTime @default(now())
+  updataAt DateTime @updatedAt
 }
 
 enum Status {

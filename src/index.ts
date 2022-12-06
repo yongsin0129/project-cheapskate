@@ -7,6 +7,10 @@ import { Prisma, PrismaClient, Status } from '@prisma/client'
 import express, { urlencoded } from 'express'
 import api from './routes/routesIndex'
 
+import passport from 'passport'
+import {passportInit} from './config/passport'
+passportInit(passport)
+
 const port = process.env.PORT
 const prisma = new PrismaClient()
 const app = express()

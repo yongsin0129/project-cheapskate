@@ -19,7 +19,11 @@
   <p align="center">
     一个"小氣鬼"心目中的娛樂省錢方案！
     <br />
-    <a href="https://github.com/yongsin0129/project-cheapskate"><strong>探索本專案的檔案 »</strong></a>
+    <br />
+    探索本專案的檔案 »
+    <br />
+    <a href="https://github.com/yongsin0129/project-cheapskate"><strong>後端</strong></a>
+    <a ><strong>前端 (wip)</strong></a>
     <br />
     <br />
     <a href="https://github.com/yongsin0129/project-cheapskate">查看README</a>
@@ -62,13 +66,13 @@
 ### 後端
 - 爬蟲抓取 movie data (done)
 - 資料庫更新 movie data logic (done)
+- movie data CRUD (done)
+- user 會員系統 (done)
 - swagger 建立 API 文檔 (wip)
-- movie data CRUD (wip)
-- user 會員系統 (wip)
 - user 收藏清單 (not started)
 
 ### 前端
-- react 環境 init (not started)
+- react 環境 init (wip)
 - 首頁 - 最新上架電影 (not started)
 - 分頁 - 所有首輪電影 (not started)
 - 分頁 - 所有二輪電影 (not started)
