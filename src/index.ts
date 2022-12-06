@@ -29,3 +29,13 @@ app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 const server = app.listen(port, () =>
   console.log(`🚀 Server ready at: http://localhost:${port}`)
 )
+
+// 如果遇到 cors 問題再來使用
+// app.use(function (req, res, next) {
+//   res.header('Access-Control-Allow-Origin', 'project-cheapskate-yongsin0129.vercel.app') // update to match the domain you will make the request from
+//   res.header(
+//     'Access-Control-Allow-Headers',
+//     'Origin, X-Requested-With, Content-Type, Accept'
+//   )
+//   next()
+// })
