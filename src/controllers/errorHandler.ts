@@ -7,7 +7,7 @@ export default function errorHandler (
   next: NextFunction
 ) {
   let responseStatusCode = 500
-  let responseObj:ResponseObj = {
+  let responseObj: ResponseObj = {
     success: false,
     data: [],
     error: err,
@@ -16,6 +16,8 @@ export default function errorHandler (
 
   // IF THERE WAS SOME ERROR THROWN BY PREVIOUS REQUEST
   if (err) {
+    responseObj.message = err.toString()
+    
     // IF THE ERROR IS REALTED TO JWT AUTHENTICATE, SET STATUS CODE TO 401 AND SET A CUSTOM MESSAGE FOR UNAUTHORIZED
     if (err.name === 'JsonWebTokenError') {
       responseStatusCode = 401
