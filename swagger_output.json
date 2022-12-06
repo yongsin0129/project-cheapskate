@@ -1,0 +1,276 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "小氣鬼的電影追蹤工具",
+    "description": "一个\"小氣鬼\"心目中的娛樂省錢方案！"
+  },
+  "host": "https://project-cheapskate-yongsin0129.vercel.app",
+  "basePath": "",
+  "tags": [
+    {
+      "name": "admin",
+      "description": "管理者使用的各種路由，包括 : [ 更新電影清單資料庫... ] "
+    },
+    {
+      "name": "user",
+      "description": "使用者登入驗證的路由"
+    },
+    {
+      "name": "movieList",
+      "description": "電影清單的路由"
+    }
+  ],
+  "schemes": [],
+  "securityDefinitions": {},
+  "paths": {
+    "/api/": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/movieList/": {
+      "get": {
+        "tags": [
+          "movieList"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "searchString",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "orderBy",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "movieList"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "any"
+                },
+                "releaseDate": {
+                  "example": "any"
+                },
+                "url": {
+                  "example": "any"
+                },
+                "status": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "movieList"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "movieList"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/addFirstRoundMovie": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "使用爬蟲比對，並新增首輪 ( FirstRound ) 電影清單至資料庫中",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/updateFirstRoundMovieList": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "使用爬蟲比對，並將首輪下架電影更改狀態至 leaveFirstRound",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/updateLeaveFirstRoundMovie": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "使用爬蟲比對，並將狀態為 leaveFirstRound 的電影清單更新至二輪電影 (secondRound)",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/addSecondRoundMovie": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "使用爬蟲比對，並新增二輪 ( secondRound ) 電影清單至資料庫中",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/updateSecondRoundMovie": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "使用爬蟲比對，並將二輪下架電影更改狀態至 leaveSecondRound",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/user/signUp": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                },
+                "password_confirmation": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/api/user/signIn": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/api/user/test": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}
