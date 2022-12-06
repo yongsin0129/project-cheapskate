@@ -14,6 +14,9 @@ passportInit(passport)
 const port = process.env.PORT
 const prisma = new PrismaClient()
 const app = express()
+const cors = require('cors')
+app.use(cors({ origin: '*' }))
+
 import swaggerUi from 'swagger-ui-express'
 import swaggerFile from '../swagger_output.json' // 剛剛輸出的 JSON
 
