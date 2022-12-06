@@ -1,4 +1,4 @@
-/// <reference path="../types/globalType.d.ts" />
+// / <reference path="../types/globalType.d.ts" />
 import cheerio from 'cheerio'
 import axios from 'axios'
 import { Prisma, PrismaClient, Status } from '@prisma/client'

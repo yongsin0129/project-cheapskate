@@ -17,7 +17,7 @@ const returnMessage: Log = {
           controllers
 *
 *********************************************************************************/
-export const movieListController = {
+export const adminController = {
 
   // 新增首輪 ( FirstRound )電影清單
   addFirstRoundMovie: async (
