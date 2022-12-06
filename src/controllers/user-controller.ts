@@ -32,7 +32,7 @@ export const userController = {
             password: bcrypt.hashSync(req.body.password, 10)
           }
         })
-        return res.send({ message: '成功註冊', user: createdUser })
+        return res.send({ success: true, user: createdUser })
       } catch (error) {
         return res.send(error)
       }
@@ -54,17 +54,17 @@ export const userController = {
     const user = await prisma.user.findUnique({
       where: { email: req.body.email }
     })
-    if (!user) return res.send({ status: 'failure', message: '無此使用者' })
+    if (!user) return res.send({ success: false, message: '無此使用者' })
     bcrypt.compare(req.body.password, user.password).then(resultBoolean => {
       try {
         if (resultBoolean === false)
-          return res.send({ status: 'failure', message: '密碼錯誤' })
+          return res.send({ success: false, message: '密碼錯誤' })
         if (resultBoolean === true) {
           const tokenObject = { id: user.id, email: user.email }
           const jwtToken = jwt.sign(tokenObject, process.env.jwt_Secret!, {
             expiresIn: '30 days'
           })
-          res.send({ status: 'success', data: user, jwtToken })
+          res.send({ success: true, data: user, jwtToken })
         }
       } catch (error) {
         res.send(error)
