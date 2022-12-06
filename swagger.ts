@@ -15,7 +15,7 @@ const doc = {
     title: '小氣鬼的電影追蹤工具', // by default: "REST API"
     description: '一个"小氣鬼"心目中的娛樂省錢方案！' // by default: ""
   },
-  host: 'project-cheapskate-testing-yongsin0129.vercel.app', // by default: "localhost:3000"
+  host: 'project-cheapskate-yongsin0129.vercel.app/', // by default: "localhost:3000"
   basePath: '/', // by default: "/"
   schemes: ['https'], // by default: ['http']
   consumes: [], // by default: ['application/json']
