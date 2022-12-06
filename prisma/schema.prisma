@@ -19,6 +19,14 @@ model MovieList {
   @@unique([title, releaseDate])
 }
 
+model User {
+  id       String   @id @default(uuid())
+  email    String   @unique
+  password String
+  createAt DateTime @default(now())
+  updataAt DateTime @updatedAt
+}
+
 enum Status {
   notReleased
   firstRound
