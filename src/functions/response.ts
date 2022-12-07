@@ -1,10 +1,10 @@
 import { Response } from 'express'
 
 export default class response {
-  private responseStatusCode: number
-  private responseObj: ResponseObj
+  public responseStatusCode: number
+  public responseObj: ResponseObj
   constructor (
-    private responseData?: {
+    public responseData?: {
       responseStatusCode?: number
       success?: Boolean
       data?: any[]

@@ -13,11 +13,17 @@ router.post(
   '/signUp',
 
   /*  
+
   #swagger.summary = '使用者註冊新帳號'
   #swagger.responses[200] = {
             description: 'register successfully',
-            schema: { $ref: '#/definitions/response'}
+            schema: { $ref: '#/definitions/response200'}
           }
+  #swagger.responses[400] = {
+            description: 'bad request',
+            schema: { $ref: '#/definitions/response400' }
+          }
+
   */
 
   userController.register
@@ -36,6 +42,11 @@ router.post('/signIn',
                       "message": "some message"
                     }
           }
+  #swagger.responses[400] = {
+            description: 'bad request',
+            schema: { $ref: '#/definitions/response400' }
+          }
+
   */
 
 userController.signIn)
