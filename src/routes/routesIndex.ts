@@ -24,6 +24,4 @@ router.use(
 
 router.use(errorHandler)
 
-router.use(errorHandler)
-
 export default router
