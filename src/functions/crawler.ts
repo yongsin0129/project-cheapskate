@@ -241,7 +241,7 @@ export async function updateLeaveRoundToNextStatus (
 // 格式化日期字串
 function formatReleaseDate (ReleaseDate: string): string {
   // 建立一個 RegExp 格式 XXXX/XX/XX
-  const regex = new RegExp(/^[12]\d{3}?\/\d{1,2}?\/\d{1,2}?/)
+  const regex = new RegExp(/^[12]\d{3}?\/\d{1,2}?\/\d{1,2}/)
   // 取出符合格式的 string
   let result = ReleaseDate.match(regex)
   if (result !== null) return result[0]
