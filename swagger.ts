@@ -43,11 +43,17 @@ const doc = {
       message: 'some message',
       data: []
     },
-    response:{
+    response200: {
       success: true,
       data: [],
       error: {},
-      message:'some message'
+      message: 'some message'
+    },
+    response400: {
+      success: false,
+      data: [],
+      error: {},
+      message: 'some error message'
     }
   },
   components: {}

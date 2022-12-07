@@ -22,6 +22,11 @@ router.post(
             description: 'update successfully',
             schema: { $ref: '#/definitions/updateMovieListResponse'}
           }
+  #swagger.responses[400] = {
+            description: 'bad request',
+            schema: { $ref: '#/definitions/response400' }
+          }
+
   */
 
   checkPasswordId,
@@ -43,6 +48,11 @@ router.post(
             description: 'update successfully',
             schema: { $ref: '#/definitions/updateMovieListResponse'}
           }
+  #swagger.responses[400] = {
+            description: 'bad request',
+            schema: { $ref: '#/definitions/response400' }
+          }
+
   */
 
   checkPasswordId,
@@ -51,7 +61,7 @@ router.post(
 
 router.post(
   '/updateLeaveFirstRoundMovie',
-  
+
   /*  
   #swagger.summary = '使用爬蟲比對，並將狀態為 leaveFirstRound 的電影清單更新至二輪電影 (secondRound)'
   #swagger.parameters['passwordId'] = {
@@ -64,6 +74,11 @@ router.post(
             description: 'update successfully',
             schema: { $ref: '#/definitions/updateMovieListResponse'}
           }
+  #swagger.responses[400] = {
+            description: 'bad request',
+            schema: { $ref: '#/definitions/response400' }
+          }
+
   */
 
   checkPasswordId,
@@ -72,7 +87,7 @@ router.post(
 
 router.post(
   '/addSecondRoundMovie',
-  
+
   /*  
   #swagger.summary = '使用爬蟲比對，並新增二輪 ( secondRound ) 電影清單至資料庫中'
   #swagger.parameters['passwordId'] = {
@@ -85,6 +100,11 @@ router.post(
             description: 'update successfully',
             schema: { $ref: '#/definitions/updateMovieListResponse'}
           }
+  #swagger.responses[400] = {
+            description: 'bad request',
+            schema: { $ref: '#/definitions/response400' }
+          }
+
   */
 
   checkPasswordId,
@@ -93,7 +113,7 @@ router.post(
 
 router.post(
   '/updateSecondRoundMovie',
-  
+
   /*  
   #swagger.summary = '使用爬蟲比對，並將二輪下架電影更改狀態至 leaveSecondRound'
   #swagger.parameters['passwordId'] = {
@@ -106,6 +126,11 @@ router.post(
             description: 'update successfully',
             schema: { $ref: '#/definitions/updateMovieListResponse'}
           }
+  #swagger.responses[400] = {
+            description: 'bad request',
+            schema: { $ref: '#/definitions/response400' }
+          }
+
   */
 
   checkPasswordId,

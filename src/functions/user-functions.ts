@@ -1,60 +1,85 @@
-// import { Prisma, PrismaClient } from '@prisma/client'
-// import bcrypt from 'bcryptjs'
-// import * as validator from './validation'
-// const prisma = new PrismaClient()
+import { Request, Response, NextFunction } from 'express'
+import { Prisma, PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import ResponseClass from '../functions/response'
 
-// main()
-// async function main () {
-//   const password = await bcrypt.hash('12345678', 10)
+export async function userSignUp (req: Request) {
+  try {
+    // 查詢 email 使用者
+    const user = await prisma.user.findUnique({
+      where: { email: req.body.email }
+    })
+    if (user) {
+      return new ResponseClass({
+        responseStatusCode: 400,
+        message: '此 email 已經註冊過了 !!'
+      })
+    }
+    // 若 email 無人使用，則註冊新的使用者
+    else {
+      const createdUser = await prisma.user.create({
+        data: {
+          email: req.body.email,
+          password: bcrypt.hashSync(req.body.password, 10)
+        }
+      })
+      createdUser.password = ''
+      return new ResponseClass({
+        responseStatusCode: 200,
+        success: true,
+        data: [{ createdUser }],
+        message: '註冊成功 !!'
+      })
+    }
+  } catch (error) {
+    return new ResponseClass({
+      responseStatusCode: 500,
+      error: error,
+      message: 'userSignUp 非預期錯誤'
+    })
+  }
+}
 
-//   const registerInputData: validator.RegisterInputData = {
-//     email: 'user2@example.com',
-//     password: '12345678'
-//   }
+export async function userSignIn (req: Request) {
+  try {
+    // 查詢 email 使用者
+    const user = await prisma.user.findUnique({
+      where: { email: req.body.email }
+    })
+    if (!user) {
+      return new ResponseClass({
+        responseStatusCode: 400,
+        message: '無此使用者'
+      })
+    }
 
-//   // 使用 validation
-//   // const { error } = validator.registerValidation(registerInputData)
-//   // if (error) {
-//   //   console.log(error.details[0].message)
-//   //   return
-//   // }
-
-//   // const createdUser = await prisma.user.create({
-//   //   data: {
-//   //     email: registerInputData.email,
-//   //     password: bcrypt.hashSync(registerInputData.password,10)
-//   //   }
-//   // })
-//   // console.log('createdUser : ', createdUser)
-
-//   // // 密碼比對
-
-//   const loginInputData: validator.LoginInputData = {
-//     email: 'user2@example.com',
-//     password: '12345678',
-//     password_confirmation: '1234567'
-//   }
-//   // 使用 validation
-//   const { error } = validator.loginValidation(loginInputData)
-//   console.log(validator.loginValidation(loginInputData))
-//   if (error) {
-//     console.log(error.details[0].message)
-//     return
-//   }
-
-//   // const findedUser = await prisma.user.findUnique({
-//   //   where: {
-//   //     email: 'user1@example.com'
-//   //   }
-//   // })
-//   // console.log('findedUser : ', findedUser)
-
-//   // const pw1 = '12345678'
-//   // const pw2 = findedUser?.password
-
-//   // bcrypt.compare(pw1, pw2!).then(res => {
-//   //   console.log('res : ' + res)
-//   // })
-
-//   // prisma.$disconnect()
-// }
+    // 使用 bcrypt 比對使用者密碼
+    const bcryptResult = await bcrypt.compare(req.body.password, user.password)
+    if (bcryptResult === false) {
+      return new ResponseClass({
+        responseStatusCode: 400,
+        message: '密碼錯誤'
+      })
+    } else {
+      const tokenObject = { id: user.id, email: user.email }
+      const jwtToken = jwt.sign(tokenObject, process.env.jwt_Secret!, {
+        expiresIn: '30 days'
+      })
+      user.password = ''
+      return new ResponseClass({
+        responseStatusCode: 200,
+        success: true,
+        data: [{ user, jwtToken }],
+        message: '登入成功'
+      })
+    }
+  } catch (error) {
+    return new ResponseClass({
+      responseStatusCode: 500,
+      error: error,
+      message: 'userSignIn 非預期錯誤'
+    })
+  }
+}

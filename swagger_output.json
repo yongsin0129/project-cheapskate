@@ -149,6 +149,12 @@
             "schema": {
               "$ref": "#/definitions/updateMovieListResponse"
             }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "$ref": "#/definitions/response400"
+            }
           }
         }
       }
@@ -182,6 +188,12 @@
             "description": "update successfully",
             "schema": {
               "$ref": "#/definitions/updateMovieListResponse"
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "$ref": "#/definitions/response400"
             }
           }
         }
@@ -217,6 +229,12 @@
             "schema": {
               "$ref": "#/definitions/updateMovieListResponse"
             }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "$ref": "#/definitions/response400"
+            }
           }
         }
       }
@@ -251,6 +269,12 @@
             "schema": {
               "$ref": "#/definitions/updateMovieListResponse"
             }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "$ref": "#/definitions/response400"
+            }
           }
         }
       }
@@ -284,6 +308,12 @@
             "description": "update successfully",
             "schema": {
               "$ref": "#/definitions/updateMovieListResponse"
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "$ref": "#/definitions/response400"
             }
           }
         }
@@ -320,7 +350,13 @@
           "200": {
             "description": "register successfully",
             "schema": {
-              "$ref": "#/definitions/response"
+              "$ref": "#/definitions/response200"
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "$ref": "#/definitions/response400"
             }
           }
         }
@@ -389,6 +425,12 @@
                 "name": "main"
               }
             }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "$ref": "#/definitions/response400"
+            }
           }
         }
       }
@@ -428,7 +470,7 @@
         }
       }
     },
-    "response": {
+    "response200": {
       "type": "object",
       "properties": {
         "success": {
@@ -447,6 +489,28 @@
         "message": {
           "type": "string",
           "example": "some message"
+        }
+      }
+    },
+    "response400": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": false
+        },
+        "data": {
+          "type": "array",
+          "example": [],
+          "items": {}
+        },
+        "error": {
+          "type": "object",
+          "properties": {}
+        },
+        "message": {
+          "type": "string",
+          "example": "some error message"
         }
       }
     }
