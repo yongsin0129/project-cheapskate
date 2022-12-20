@@ -35,7 +35,7 @@
     //   { status: Status.firstRound },
     //   { status: Status.leaveFirstRound },
     //   { status: Status.secondRound },
-    //   { status: Status.leavesecondRound },
+    //   { status: Status.leaveSecondRound },
     //   { status: Status.Streaming }
     // ])
 
@@ -109,7 +109,7 @@
 //     const newUpdateDataLog = await crawler.updateMovieListStatus(
 //       secondRoundMovieList,
 //       onlineMovieList,
-//       Status.leavesecondRound
+//       Status.leaveSecondRound
 //     )
 
 //     // returnMessage

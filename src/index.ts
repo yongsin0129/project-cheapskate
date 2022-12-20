@@ -1,41 +1,54 @@
 console.log('server env.NODE_ENV : ' + process.env.NODE_ENV)
-import dotenv from 'dotenv'
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
-import { Prisma, PrismaClient, Status } from '@prisma/client'
-import express, { urlencoded } from 'express'
+import express from 'express'
 import api from './routes/routesIndex'
-
 import passport from 'passport'
 import { passportInit } from './config/passport'
-passportInit(passport)
-
-const port = process.env.PORT
-const prisma = new PrismaClient()
-const app = express()
-const cors = require('cors')
-app.use(cors({ origin: '*' }))
-
+import cors from 'cors'
+import { ApolloServer } from '@apollo/server'
+import gql from 'graphql-tag'
+import { expressMiddleware } from '@apollo/server/express4'
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
+import http from 'http'
+import bodyParser from 'body-parser'
 import swaggerUi from 'swagger-ui-express'
-import swaggerFile from '../swagger_output.json' // 剛剛輸出的 JSON
+import swaggerFile from '../swagger_output.json'
+import { schema } from './schemas'
+const PORT = process.env.PORT || 3000
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+const booStrap = async () => {
+  passportInit(passport)
+  const port = process.env.PORT
+  const app = express()
+  const httpServer = http.createServer(app)
+  const server = new ApolloServer({
+    schema,
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
+  })
+  await server.start()
 
-app.use('/api', api)
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+  app.use(cors({ origin: '*' }))
+  app.use(express.json())
+  app.use(express.urlencoded({ extended: true }))
 
-const server = app.listen(port, () =>
-  console.log(`🚀 Server ready at: http://localhost:${port}`)
-)
+  // RESTful API
+  app.use('/api', api)
+  // GraphQL
+  app.use(
+    '/graphql',
+    cors<cors.CorsRequest>(),
+    // bodyParser.json(), // 這行不需要，因為上面已經有 app.use(express.json())
+    expressMiddleware(server, {
+      context: async ({ req }) => ({ token: req.headers.token })
+    })
+  )
+  // swagger doc
+  app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
-// 如果遇到 cors 問題再來使用
-// app.use(function (req, res, next) {
-//   res.header('Access-Control-Allow-Origin', 'project-cheapskate-yongsin0129.vercel.app') // update to match the domain you will make the request from
-//   res.header(
-//     'Access-Control-Allow-Headers',
-//     'Origin, X-Requested-With, Content-Type, Accept'
-//   )
-//   next()
-// })
+  await new Promise<void>(resolve => httpServer.listen({ port: PORT }, resolve))
+  console.log(`🚀 Server ready at http://localhost:${PORT}/`)
+}
+
+booStrap()

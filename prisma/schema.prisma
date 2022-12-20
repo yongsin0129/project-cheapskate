@@ -15,7 +15,7 @@ model MovieList {
   url         String?
   status      Status   @default(notReleased)
   createAt    DateTime @default(now())
-  updataAt    DateTime @updatedAt
+  updateAt    DateTime @updatedAt
 
   @@unique([title, releaseDate])
 }
@@ -25,7 +25,7 @@ model User {
   email    String   @unique
   password String
   createAt DateTime @default(now())
-  updataAt DateTime @updatedAt
+  updateAt DateTime @updatedAt
 }
 
 enum Status {
@@ -33,6 +33,6 @@ enum Status {
   firstRound
   leaveFirstRound
   secondRound
-  leavesecondRound
+  leaveSecondRound
   Streaming
 }
