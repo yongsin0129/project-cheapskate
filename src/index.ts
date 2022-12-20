@@ -15,20 +15,8 @@ import http from 'http'
 import bodyParser from 'body-parser'
 import swaggerUi from 'swagger-ui-express'
 import swaggerFile from '../swagger_output.json'
+import { schema } from './schemas'
 const PORT = process.env.PORT || 3000
-
-const typeDefs = gql`
-  type Query {
-    "測試用 Hello World"
-    hello: String
-  }
-`
-
-const resolvers = {
-  Query: {
-    hello: () => 'hello world'
-  }
-}
 
 const booStrap = async () => {
   passportInit(passport)
@@ -36,8 +24,7 @@ const booStrap = async () => {
   const app = express()
   const httpServer = http.createServer(app)
   const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+    schema,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
   })
   await server.start()
