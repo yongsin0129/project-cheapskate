@@ -23,7 +23,7 @@ const typeDefs = gql`
     firstRound
     leaveFirstRound
     secondRound
-    leavesecondRound
+    leaveSecondRound
     Streaming
   }
 `
