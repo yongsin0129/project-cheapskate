@@ -15,7 +15,7 @@ const typeDefs = gql`
     url: String
     status: Status
     createAt: String
-    updataAt: String
+    updateAt: String
   }
 
   enum Status {
