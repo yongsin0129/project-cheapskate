@@ -19,7 +19,7 @@ export type MovieList = {
   createAt?: Maybe<Scalars['DateTime']>;
   id: Scalars['ID'];
   releaseDate: Scalars['String'];
-  status: Status;
+  status: Scalars['String'];
   title: Scalars['String'];
   updateAt?: Maybe<Scalars['DateTime']>;
   url?: Maybe<Scalars['String']>;
@@ -30,16 +30,6 @@ export type Query = {
   Movies: Array<MovieList>;
   hello?: Maybe<Scalars['String']>;
 };
-
-/** Status 共有六種電影的現在上映狀態 */
-export enum Status {
-  Streaming = 'Streaming',
-  FirstRound = 'firstRound',
-  LeaveFirstRound = 'leaveFirstRound',
-  LeaveSecondRound = 'leaveSecondRound',
-  NotReleased = 'notReleased',
-  SecondRound = 'secondRound'
-}
 
 
 
@@ -115,7 +105,6 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars['ID']>;
   MovieList: ResolverTypeWrapper<MovieList>;
   Query: ResolverTypeWrapper<{}>;
-  Status: Status;
   String: ResolverTypeWrapper<Scalars['String']>;
 };
 
@@ -137,7 +126,7 @@ export type MovieListResolvers<ContextType = any, ParentType extends ResolversPa
   createAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   releaseDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  status?: Resolver<ResolversTypes['Status'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updateAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
