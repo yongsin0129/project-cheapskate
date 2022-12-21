@@ -64,11 +64,12 @@
 
 ## 開發項目拆分
 ### 後端
-- 爬蟲抓取 movie data (done)
-- 資料庫更新 movie data logic (done)
-- movie data CRUD (done)
-- user 會員系統 (done)
-- swagger 建立 API 文檔 (wip)
+- 爬蟲抓取 movie data (done) - Restful API 實作
+- 資料庫更新 movie data logic (done) - Restful API 實作
+- user 會員系統 (done) - Restful API 實作
+- movie data CRUD (done) - GreaphQL API 實作
+- swagger 建立 API 文檔 (done)
+- graphql API 結合 express (done)
 - user 收藏清單 (not started)
 
 ### 前端
