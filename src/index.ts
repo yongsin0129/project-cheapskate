@@ -15,7 +15,7 @@ import http from 'http'
 import bodyParser from 'body-parser'
 import swaggerUi from 'swagger-ui-express'
 import swaggerFile from '../swagger_output.json'
-import { schema } from './schemas'
+import { schema, typeDefs, resolvers } from './schemas'
 const PORT = process.env.PORT || 3000
 
 const booStrap = async () => {
@@ -25,6 +25,8 @@ const booStrap = async () => {
   const httpServer = http.createServer(app)
   const server = new ApolloServer({
     schema,
+    // typeDefs,
+    // resolvers,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
   })
   await server.start()
