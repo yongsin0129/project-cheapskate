@@ -9,7 +9,7 @@ const typeDefs = gql`
   scalar DateTime
 
   type Query {
-    Movies: [MovieList!]!
+    Movies(searchString: String, take: Int, skip: Int): [MovieList!]!
   }
 
   type MovieList {
@@ -39,7 +39,17 @@ const typeDefs = gql`
 const resolvers: Type.Resolvers = {
   DateTime: DateTimeResolver,
   Query: {
-    Movies: () => prisma.movieList.findMany()
+    Movies: (root, args, context) => {
+      const { searchString, take, skip } = args
+      const or = searchString
+        ? { OR: [{ title: { contains: searchString as string } }] }
+        : {}
+      return prisma.movieList.findMany({
+        where: { ...or },
+        take: Number(take) || undefined,
+        skip: Number(skip) || undefined
+      })
+    }
   }
 }
 

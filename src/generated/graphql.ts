@@ -32,6 +32,13 @@ export type Query = {
 };
 
 
+export type QueryMoviesArgs = {
+  searchString?: InputMaybe<Scalars['String']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+};
+
+
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
@@ -103,6 +110,7 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   MovieList: ResolverTypeWrapper<MovieList>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
@@ -113,6 +121,7 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   DateTime: Scalars['DateTime'];
   ID: Scalars['ID'];
+  Int: Scalars['Int'];
   MovieList: MovieList;
   Query: {};
   String: Scalars['String'];
@@ -134,7 +143,7 @@ export type MovieListResolvers<ContextType = any, ParentType extends ResolversPa
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  Movies?: Resolver<Array<ResolversTypes['MovieList']>, ParentType, ContextType>;
+  Movies?: Resolver<Array<ResolversTypes['MovieList']>, ParentType, ContextType, Partial<QueryMoviesArgs>>;
   hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
