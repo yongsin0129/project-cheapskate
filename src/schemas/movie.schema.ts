@@ -1,37 +1,59 @@
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import gql from 'graphql-tag'
+import * as Type from '../generated/graphql'
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
+import { DateTimeResolver } from 'graphql-scalars'
 
 const typeDefs = gql`
+  scalar DateTime
+
   type Query {
-    allMovies: [MovieList!]!
+    Movies(searchString: String, take: Int, skip: Int): [MovieList!]!
   }
 
   type MovieList {
     id: ID!
-    title: String
-    releaseDate: String
+    title: String!
+    releaseDate: String!
     url: String
-    status: Status
-    createAt: String
-    updateAt: String
+    status: String!
+    createAt: DateTime
+    updateAt: DateTime
   }
-
-  enum Status {
-    notReleased
-    firstRound
-    leaveFirstRound
-    secondRound
-    leaveSecondRound
-    Streaming
-  }
+  # """
+  # Status 共有六種電影的現在上映狀態
+  # prisma 的 enum 跟 graphql 的 enum 會有 type不合的問題 , 先把 status 的類型改為 String
+  # prisma issue : https://github.com/prisma/prisma/issues/12659
+  # """
+  # enum Status {
+  #   notReleased
+  #   firstRound
+  #   leaveFirstRound
+  #   secondRound
+  #   leaveSecondRound
+  #   Streaming
+  # }
 `
-
-const resolvers = {
+// :Type.Resolvers
+const resolvers: Type.Resolvers = {
+  DateTime: DateTimeResolver,
   Query: {
-    allMovies: () => prisma.movieList.findMany()
+    Movies: (root, args, context) => {
+      const { searchString, take, skip } = args
+      const or = searchString
+        ? { OR: [{ title: { contains: searchString as string } }] }
+        : {}
+      return prisma.movieList.findMany({
+        where: { ...or },
+        take: Number(take) || undefined,
+        skip: Number(skip) || undefined
+      })
+    }
   }
 }
 
-export const movie_schema = makeExecutableSchema({ typeDefs, resolvers })
+export const movie_schema = makeExecutableSchema({
+  typeDefs: [typeDefs],
+  resolvers
+})

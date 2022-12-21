@@ -5,3 +5,7 @@ import { movie_schema } from './movie.schema'
 export const schema = mergeSchemas({
   schemas: [hello_schema, movie_schema]
 })
+
+export const typeDefs = []
+
+export const resolvers = {}

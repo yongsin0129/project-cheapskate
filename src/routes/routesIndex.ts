@@ -6,9 +6,15 @@ import errorHandler from '../controllers/errorHandler'
 
 const router = express.Router()
 
-router.use('/movieList',
-// #swagger.tags = ['movieList']
-movieList)
+router.use(
+  '/movieList',
+  /*  
+#swagger.tags = ['movieList']
+#swagger.deprecated = true
+  */
+
+  movieList
+)
 
 router.use(
   '/admin',
