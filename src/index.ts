@@ -17,10 +17,19 @@ import swaggerUi from 'swagger-ui-express'
 import swaggerFile from '../swagger_output.json'
 import { typeDefs } from './schemas'
 import { resolvers } from './resolvers'
-import { makeExecutableSchema } from '@graphql-tools/schema'
-const schema = makeExecutableSchema({ typeDefs, resolvers })
+import {
+  ApolloServerPluginLandingPageLocalDefault,
+  ApolloServerPluginLandingPageProductionDefault
+} from '@apollo/server/plugin/landingPage/default'
 
 const PORT = process.env.PORT || 3000
+const ApolloServerLandingPageConfig =
+  process.env.NODE_ENV === 'production'
+    ? ApolloServerPluginLandingPageProductionDefault({
+        graphRef: process.env.APOLLO_GRAPH_REF,
+        footer: false
+      })
+    : ApolloServerPluginLandingPageLocalDefault({ footer: false })
 
 interface MyContext {
   token?: String
@@ -35,7 +44,11 @@ const booStrap = async () => {
     // schema,
     typeDefs,
     resolvers,
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
+    plugins: [
+      ApolloServerPluginDrainHttpServer({ httpServer }),
+      // Install a landing page plugin based on NODE_ENV
+      ApolloServerLandingPageConfig
+    ]
   })
   await server.start()
 
