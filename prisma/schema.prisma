@@ -3,29 +3,32 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("postgreSQL_URL")
+  provider          = "postgresql"
+  url               = env("postgreSQL_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model MovieList {
-  id          String   @id @default(uuid())
-  title       String
-  releaseDate String
-  url         String?
-  status      Status   @default(notReleased)
-  createAt    DateTime @default(now())
-  updateAt    DateTime @updatedAt
+  id              String   @id @default(uuid())
+  title           String
+  releaseDate     String
+  url             String?
+  status          Status   @default(notReleased)
+  createAt        DateTime @default(now())
+  updateAt        DateTime @updatedAt
+  followedByUsers User[]
 
   @@unique([title, releaseDate])
 }
 
 model User {
-  id       String   @id @default(uuid())
-  email    String   @unique
-  password String
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  id             String      @id @default(uuid())
+  name           String
+  email          String      @unique
+  password       String
+  createAt       DateTime    @default(now())
+  updateAt       DateTime    @updatedAt
+  followedMovies MovieList[]
 }
 
 enum Status {

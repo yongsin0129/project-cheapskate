@@ -21,6 +21,7 @@ export async function userSignUp (req: Request) {
     else {
       const createdUser = await prisma.user.create({
         data: {
+          name: req.body.name,
           email: req.body.email,
           password: bcrypt.hashSync(req.body.password, 10)
         }

@@ -15,18 +15,26 @@ import http from 'http'
 import bodyParser from 'body-parser'
 import swaggerUi from 'swagger-ui-express'
 import swaggerFile from '../swagger_output.json'
-import { schema, typeDefs, resolvers } from './schemas'
+import { typeDefs } from './schemas'
+import { resolvers } from './resolvers'
+import { makeExecutableSchema } from '@graphql-tools/schema'
+const schema = makeExecutableSchema({ typeDefs, resolvers })
+
 const PORT = process.env.PORT || 3000
+
+interface MyContext {
+  token?: String
+}
 
 const booStrap = async () => {
   passportInit(passport)
   const port = process.env.PORT
   const app = express()
   const httpServer = http.createServer(app)
-  const server = new ApolloServer({
-    schema,
-    // typeDefs,
-    // resolvers,
+  const server = new ApolloServer<MyContext>({
+    // schema,
+    typeDefs,
+    resolvers,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
   })
   await server.start()
