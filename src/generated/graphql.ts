@@ -26,6 +26,22 @@ export type MovieList = {
   url?: Maybe<Scalars['String']>;
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  addFollowedMovies?: Maybe<User>;
+  removeFollowedMovies?: Maybe<User>;
+};
+
+
+export type MutationAddFollowedMoviesArgs = {
+  MovieListId?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationRemoveFollowedMoviesArgs = {
+  MovieListId?: InputMaybe<Scalars['String']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   Movies: Array<MovieList>;
@@ -131,6 +147,7 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   MovieList: ResolverTypeWrapper<MovieList>;
+  Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
@@ -143,6 +160,7 @@ export type ResolversParentTypes = {
   ID: Scalars['ID'];
   Int: Scalars['Int'];
   MovieList: MovieList;
+  Mutation: {};
   Query: {};
   String: Scalars['String'];
   User: User;
@@ -164,6 +182,11 @@ export type MovieListResolvers<ContextType = any, ParentType extends ResolversPa
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  addFollowedMovies?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationAddFollowedMoviesArgs>>;
+  removeFollowedMovies?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationRemoveFollowedMoviesArgs>>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   Movies?: Resolver<Array<ResolversTypes['MovieList']>, ParentType, ContextType, Partial<QueryMoviesArgs>>;
   Users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryUsersArgs>>;
@@ -183,6 +206,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 export type Resolvers<ContextType = any> = {
   DateTime?: GraphQLScalarType;
   MovieList?: MovieListResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };

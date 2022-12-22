@@ -32,6 +32,40 @@ export const resolvers: Type.Resolvers = {
       })
     }
   },
+  Mutation: {
+    addFollowedMovies: async (root, args, context) => {
+      if (context.token === null) throw new GraphQLError('jwt token not found')
+      const { id, name, email } = context.token
+      const { MovieListId } = args
+
+      try {
+        return await prisma.user.update({
+          where: { id },
+          data: {
+            followedMovies: { connect: { id: MovieListId! } }
+          }
+        })
+      } catch (error) {
+        throw new GraphQLError(`${error}`)
+      }
+    },
+    removeFollowedMovies: async (root, args, context) => {
+      if (context.token === null) throw new GraphQLError('jwt token not found')
+      const { id, name, email } = context.token
+      const { MovieListId } = args
+
+      try {
+        return await prisma.user.update({
+          where: { id },
+          data: {
+            followedMovies: { disconnect: { id: MovieListId! } }
+          }
+        })
+      } catch (error) {
+        throw new GraphQLError(`${error}`)
+      }
+    }
+  },
   User: {
     followedMovies: async (parent, args, context) => {
       return await prisma.user

@@ -21,8 +21,11 @@ import {
   ApolloServerPluginLandingPageLocalDefault,
   ApolloServerPluginLandingPageProductionDefault
 } from '@apollo/server/plugin/landingPage/default'
+import { decrypt_JWT_Token } from './functions/validation'
 
 const PORT = process.env.PORT || 3000
+
+// Install a landing page plugin based on NODE_ENV
 const ApolloServerLandingPageConfig =
   process.env.NODE_ENV === 'production'
     ? ApolloServerPluginLandingPageProductionDefault({
@@ -44,9 +47,9 @@ const booStrap = async () => {
     // schema,
     typeDefs,
     resolvers,
+    introspection: true,
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
-      // Install a landing page plugin based on NODE_ENV
       ApolloServerLandingPageConfig
     ]
   })
@@ -64,7 +67,9 @@ const booStrap = async () => {
     cors<cors.CorsRequest>(),
     // bodyParser.json(), // 這行不需要，因為上面已經有 app.use(express.json())
     expressMiddleware(server, {
-      context: async ({ req }) => ({ token: req.headers.token })
+      context: async ({ req }) => ({
+        token: decrypt_JWT_Token(req.headers.jwt_token as string)
+      })
     })
   )
   // swagger doc
