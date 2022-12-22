@@ -17,6 +17,7 @@ export type Scalars = {
 export type MovieList = {
   __typename?: 'MovieList';
   createAt?: Maybe<Scalars['DateTime']>;
+  followedByUsers?: Maybe<Array<Maybe<User>>>;
   id: Scalars['ID'];
   releaseDate: Scalars['String'];
   status: Scalars['String'];
@@ -28,6 +29,7 @@ export type MovieList = {
 export type Query = {
   __typename?: 'Query';
   Movies: Array<MovieList>;
+  Users: Array<User>;
   hello?: Maybe<Scalars['String']>;
 };
 
@@ -36,6 +38,23 @@ export type QueryMoviesArgs = {
   searchString?: InputMaybe<Scalars['String']>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QueryUsersArgs = {
+  searchString?: InputMaybe<Scalars['String']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+};
+
+export type User = {
+  __typename?: 'User';
+  createAt?: Maybe<Scalars['DateTime']>;
+  email?: Maybe<Scalars['String']>;
+  followedMovies?: Maybe<Array<Maybe<MovieList>>>;
+  id?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  updateAt?: Maybe<Scalars['DateTime']>;
 };
 
 
@@ -114,6 +133,7 @@ export type ResolversTypes = {
   MovieList: ResolverTypeWrapper<MovieList>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  User: ResolverTypeWrapper<User>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -125,6 +145,7 @@ export type ResolversParentTypes = {
   MovieList: MovieList;
   Query: {};
   String: Scalars['String'];
+  User: User;
 };
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
@@ -133,6 +154,7 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 
 export type MovieListResolvers<ContextType = any, ParentType extends ResolversParentTypes['MovieList'] = ResolversParentTypes['MovieList']> = {
   createAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  followedByUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   releaseDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -144,12 +166,24 @@ export type MovieListResolvers<ContextType = any, ParentType extends ResolversPa
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   Movies?: Resolver<Array<ResolversTypes['MovieList']>, ParentType, ContextType, Partial<QueryMoviesArgs>>;
+  Users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryUsersArgs>>;
   hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
+export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  createAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  followedMovies?: Resolver<Maybe<Array<Maybe<ResolversTypes['MovieList']>>>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updateAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
   DateTime?: GraphQLScalarType;
   MovieList?: MovieListResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  User?: UserResolvers<ContextType>;
 };
 

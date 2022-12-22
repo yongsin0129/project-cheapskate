@@ -1,16 +1,7 @@
-import { makeExecutableSchema } from '@graphql-tools/schema'
 import gql from 'graphql-tag'
-import * as Type from '../generated/graphql'
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
-import { DateTimeResolver } from 'graphql-scalars'
 
-const typeDefs = gql`
+export const movie_typeDefs = gql`
   scalar DateTime
-
-  type Query {
-    Movies(searchString: String, take: Int, skip: Int): [MovieList!]!
-  }
 
   type MovieList {
     id: ID!
@@ -20,6 +11,7 @@ const typeDefs = gql`
     status: String!
     createAt: DateTime
     updateAt: DateTime
+    followedByUsers: [User]
   }
   # """
   # Status 共有六種電影的現在上映狀態
@@ -35,25 +27,3 @@ const typeDefs = gql`
   #   Streaming
   # }
 `
-// :Type.Resolvers
-const resolvers: Type.Resolvers = {
-  DateTime: DateTimeResolver,
-  Query: {
-    Movies: (root, args, context) => {
-      const { searchString, take, skip } = args
-      const or = searchString
-        ? { OR: [{ title: { contains: searchString as string } }] }
-        : {}
-      return prisma.movieList.findMany({
-        where: { ...or },
-        take: Number(take) || undefined,
-        skip: Number(skip) || undefined
-      })
-    }
-  }
-}
-
-export const movie_schema = makeExecutableSchema({
-  typeDefs: [typeDefs],
-  resolvers
-})

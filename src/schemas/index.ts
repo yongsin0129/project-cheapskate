@@ -1,11 +1,5 @@
-const { mergeSchemas } = require('@graphql-tools/schema')
-import { hello_schema } from './hello.schema'
-import { movie_schema } from './movie.schema'
+import { query_typeDefs } from './query.schema'
+import { movie_typeDefs } from './movie.schema'
+import { user_typeDefs } from './user.schema'
 
-export const schema = mergeSchemas({
-  schemas: [hello_schema, movie_schema]
-})
-
-export const typeDefs = []
-
-export const resolvers = {}
+export const typeDefs = [query_typeDefs, movie_typeDefs, user_typeDefs]
