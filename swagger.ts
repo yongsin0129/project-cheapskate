@@ -32,7 +32,7 @@ const doc = {
     },
     {
       name: 'movieList', // Tag name
-      description: '電影清單的路由 制做中，還沒有完成' // Tag description
+      description: '電影清單的路由 (棄用) 改用 graphql API 實現，當前域名下加 /graphql 進入 graphql landing page' // Tag description
     }
     // { ... }
   ],

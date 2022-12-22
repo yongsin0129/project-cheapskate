@@ -16,3 +16,12 @@ interface ResponseObj {
   error: {}
   message: string
 }
+
+interface tokenPayload {
+  id: string
+  email: string
+}
+
+interface MyContext {
+  token: tokenPayload | null
+}

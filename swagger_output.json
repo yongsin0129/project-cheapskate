@@ -18,7 +18,7 @@
     },
     {
       "name": "movieList",
-      "description": "電影清單的路由 制做中，還沒有完成"
+      "description": "電影清單的路由 (棄用) 改用 graphql API 實現，當前域名下加 /graphql 進入 graphql landing page"
     }
   ],
   "schemes": [
@@ -32,67 +32,26 @@
           "movieList"
         ],
         "description": "",
-        "parameters": [
-          {
-            "name": "searchString",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "skip",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "take",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "orderBy",
-            "in": "query",
-            "type": "string"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "OK"
           }
-        }
+        },
+        "deprecated": true
       },
       "post": {
         "tags": [
           "movieList"
         ],
         "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "example": "any"
-                },
-                "releaseDate": {
-                  "example": "any"
-                },
-                "url": {
-                  "example": "any"
-                },
-                "status": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "OK"
           }
-        }
+        },
+        "deprecated": true
       },
       "put": {
         "tags": [
@@ -104,7 +63,8 @@
           "200": {
             "description": "OK"
           }
-        }
+        },
+        "deprecated": true
       },
       "delete": {
         "tags": [
@@ -116,7 +76,8 @@
           "200": {
             "description": "OK"
           }
-        }
+        },
+        "deprecated": true
       }
     },
     "/api/admin/addFirstRoundMovie": {

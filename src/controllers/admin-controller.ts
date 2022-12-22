@@ -33,7 +33,7 @@ export const adminController = {
       { status: Status.firstRound },
       { status: Status.leaveFirstRound },
       { status: Status.secondRound },
-      { status: Status.leavesecondRound },
+      { status: Status.leaveSecondRound },
       { status: Status.Streaming }
     ])
     console.log('成功執行資料庫取首輪的電影清單')
@@ -179,7 +179,7 @@ export const adminController = {
     const newUpdateDataLog = await crawler.updateMovieListStatus(
       secondRoundMovieList,
       onlineMovieList,
-      Status.leavesecondRound
+      Status.leaveSecondRound
     )
 
     // returnMessage

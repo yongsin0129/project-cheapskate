@@ -64,19 +64,21 @@
 
 ## 開發項目拆分
 ### 後端
-- 爬蟲抓取 movie data (done)
-- 資料庫更新 movie data logic (done)
-- movie data CRUD (done)
-- user 會員系統 (done)
-- swagger 建立 API 文檔 (wip)
-- user 收藏清單 (not started)
+- 爬蟲抓取 movie data - Restful API 實作 (done)
+- 資料庫更新 movie data logic - Restful API 實作 (done)
+- user 會員系統 - Restful API 實作 (done) 
+- swagger 建立 API 文檔 (done)
+- graphql API 結合 express (done)
+- movie data CRUD  - GreaphQL API 實作 (done)
+- user data CRUD  - GreaphQL API 實作 (done)
+- user 收藏清單 - GreaphQL API 實作 (done)
 
 ### 前端
 - react 環境 init (wip)
-- 首頁 - 最新上架電影 (not started)
-- 分頁 - 所有首輪電影 (not started)
-- 分頁 - 所有二輪電影 (not started)
-- 分頁 - 加入追蹤的電影 (not started)
+- 首頁 - 最新上架電影 (wip)
+- 分頁 - 所有首輪電影 (wip)
+- 分頁 - 所有二輪電影 (wip)
+- 分頁 - 加入追蹤的電影 (wip)
 
 ## 作者
 
