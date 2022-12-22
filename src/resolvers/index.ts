@@ -31,15 +31,15 @@ export const resolvers: Type.Resolvers = {
         skip: Number(skip) || undefined
       })
     },
-    Me: (root, args, context) => {
+    Me: (root, args, context: MyContext) => {
       if (context.token === null) throw new GraphQLError('jwt token not found')
       return prisma.user.findUnique({ where: { id: context.token.id } })
     }
   },
   Mutation: {
-    addFollowedMovies: async (root, args, context) => {
+    addFollowedMovies: async (root, args, context: MyContext) => {
       if (context.token === null) throw new GraphQLError('jwt token not found')
-      const { id, name, email } = context.token
+      const { id, email } = context.token
       const { MovieListId } = args
 
       try {
@@ -53,9 +53,9 @@ export const resolvers: Type.Resolvers = {
         throw new GraphQLError(`${error}`)
       }
     },
-    removeFollowedMovies: async (root, args, context) => {
+    removeFollowedMovies: async (root, args, context: MyContext) => {
       if (context.token === null) throw new GraphQLError('jwt token not found')
-      const { id, name, email } = context.token
+      const { id, email } = context.token
       const { MovieListId } = args
 
       try {

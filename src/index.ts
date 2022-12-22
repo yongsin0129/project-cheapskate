@@ -8,11 +8,9 @@ import passport from 'passport'
 import { passportInit } from './config/passport'
 import cors from 'cors'
 import { ApolloServer } from '@apollo/server'
-import gql from 'graphql-tag'
 import { expressMiddleware } from '@apollo/server/express4'
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 import http from 'http'
-import bodyParser from 'body-parser'
 import swaggerUi from 'swagger-ui-express'
 import swaggerFile from '../swagger_output.json'
 import { typeDefs } from './schemas'
@@ -24,7 +22,6 @@ import {
 import { decrypt_JWT_Token } from './functions/validation'
 
 const PORT = process.env.PORT || 3000
-
 // Install a landing page plugin based on NODE_ENV
 const ApolloServerLandingPageConfig =
   process.env.NODE_ENV === 'production'
@@ -34,13 +31,8 @@ const ApolloServerLandingPageConfig =
       })
     : ApolloServerPluginLandingPageLocalDefault({ footer: false })
 
-interface MyContext {
-  token?: String
-}
-
 const booStrap = async () => {
   passportInit(passport)
-  const port = process.env.PORT
   const app = express()
   const httpServer = http.createServer(app)
   const server = new ApolloServer<MyContext>({

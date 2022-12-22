@@ -40,7 +40,7 @@ export const loginValidation = (loginInputData: LoginInputData) => {
 export const decrypt_JWT_Token = (token: string | undefined) => {
   if (!token) return null
   try {
-    return jwt.verify(token, process.env.jwt_Secret!)
+    return jwt.verify(token, process.env.jwt_Secret!) as tokenPayload
   } catch (error) {
     throw new GraphQLError('jwt token verify failed')
   }
