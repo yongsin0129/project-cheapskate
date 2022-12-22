@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("postgreSQL_URL")
+  provider          = "postgresql"
+  url               = env("postgreSQL_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
@@ -22,6 +22,7 @@ model MovieList {
 
 model User {
   id       String   @id @default(uuid())
+  name     String
   email    String   @unique
   password String
   createAt DateTime @default(now())
