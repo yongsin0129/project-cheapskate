@@ -242,6 +242,18 @@
         "description": null,
         "fields": [
           {
+            "name": "Me",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "Movies",
             "description": null,
             "args": [

@@ -5,5 +5,6 @@ export const query_typeDefs = gql`
     hello: String
     Users(searchString: String, take: Int, skip: Int): [User!]!
     Movies(searchString: String, take: Int, skip: Int): [MovieList!]!
+    Me: User
   }
 `

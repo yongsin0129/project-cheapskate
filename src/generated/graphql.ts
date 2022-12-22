@@ -44,6 +44,7 @@ export type MutationRemoveFollowedMoviesArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  Me?: Maybe<User>;
   Movies: Array<MovieList>;
   Users: Array<User>;
   hello?: Maybe<Scalars['String']>;
@@ -188,6 +189,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  Me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   Movies?: Resolver<Array<ResolversTypes['MovieList']>, ParentType, ContextType, Partial<QueryMoviesArgs>>;
   Users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryUsersArgs>>;
   hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

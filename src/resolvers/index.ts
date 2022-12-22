@@ -30,6 +30,10 @@ export const resolvers: Type.Resolvers = {
         take: Number(take) || undefined,
         skip: Number(skip) || undefined
       })
+    },
+    Me: (root, args, context) => {
+      if (context.token === null) throw new GraphQLError('jwt token not found')
+      return prisma.user.findUnique({ where: { id: context.token.id } })
     }
   },
   Mutation: {
