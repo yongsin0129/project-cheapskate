@@ -10,12 +10,18 @@ export const resolvers: Type.Resolvers = {
   Query: {
     hello: () => 'hello world',
     Movies: (root, args, context) => {
-      const { searchString, take, skip } = args
-      const or = searchString
-        ? { OR: [{ title: { contains: searchString as string } }] }
-        : {}
+      const { searchString, take, skip, status } = args
+      let and = {}
+      if (searchString || status) {
+        and = {
+          AND: [
+            { title: { contains: searchString as string } },
+            { status: status }
+          ]
+        }
+      }
       return prisma.movieList.findMany({
-        where: { ...or },
+        where: { ...and },
         take: Number(take) || undefined,
         skip: Number(skip) || undefined
       })

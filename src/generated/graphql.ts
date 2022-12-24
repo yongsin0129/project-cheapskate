@@ -54,6 +54,7 @@ export type Query = {
 export type QueryMoviesArgs = {
   searchString?: InputMaybe<Scalars['String']>;
   skip?: InputMaybe<Scalars['Int']>;
+  status?: InputMaybe<Status>;
   take?: InputMaybe<Scalars['Int']>;
 };
 
@@ -63,6 +64,15 @@ export type QueryUsersArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
 };
+
+export enum Status {
+  Streaming = 'Streaming',
+  FirstRound = 'firstRound',
+  LeaveFirstRound = 'leaveFirstRound',
+  LeaveSecondRound = 'leaveSecondRound',
+  NotReleased = 'notReleased',
+  SecondRound = 'secondRound'
+}
 
 export type User = {
   __typename?: 'User';
@@ -150,6 +160,7 @@ export type ResolversTypes = {
   MovieList: ResolverTypeWrapper<MovieList>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  Status: Status;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
 };
