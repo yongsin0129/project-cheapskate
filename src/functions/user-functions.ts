@@ -35,14 +35,14 @@ export async function userSignUp (req: Request) {
       })
     }
   } catch (error) {
-    let ErrorMessage_JSON: string | null = null
+    let errorMessage: string | null = null
     if (error instanceof Error) {
-      ErrorMessage_JSON = JSON.stringify(error)
+      errorMessage = error.message
     }
     return new ResponseClass({
       responseStatusCode: 500,
       error: error,
-      message: ErrorMessage_JSON || 'userSignUp 非預期錯誤'
+      message: errorMessage || 'userSignIn 非預期錯誤'
     })
   }
 }
@@ -81,14 +81,14 @@ export async function userSignIn (req: Request) {
       })
     }
   } catch (error) {
-    let ErrorMessage_JSON: string | null = null
+    let errorMessage: string | null = null
     if (error instanceof Error) {
-      ErrorMessage_JSON = JSON.stringify(error)
+      errorMessage = error.message
     }
     return new ResponseClass({
       responseStatusCode: 500,
       error: error,
-      message: ErrorMessage_JSON || 'userSignIn 非預期錯誤'
+      message: errorMessage || 'userSignIn 非預期錯誤'
     })
   }
 }
