@@ -23,7 +23,7 @@
     探索本專案的檔案 »
     <br />
     <a href="https://github.com/yongsin0129/project-cheapskate"><strong>後端</strong></a>
-    <a ><strong>前端 (wip)</strong></a>
+    <a href="https://github.com/yongsin0129/project-cheapskate-fe"><strong>前端</strong></a>
     <br />
     <br />
     <a href="https://github.com/yongsin0129/project-cheapskate">查看README</a>
@@ -64,21 +64,21 @@
 
 ## 開發項目拆分
 ### 後端
-- 爬蟲抓取 movie data - Restful API 實作 (done)
-- 資料庫更新 movie data logic - Restful API 實作 (done)
-- user 會員系統 - Restful API 實作 (done) 
+- 爬蟲抓取 movie data - Restful API  (done)
+- 資料庫更新 movie data logic - Restful API  (done)
+- user 會員系統 - Restful API  (done) 
 - swagger 建立 API 文檔 (done)
 - graphql API 結合 express (done)
-- movie data CRUD  - GreaphQL API 實作 (done)
-- user data CRUD  - GreaphQL API 實作 (done)
-- user 收藏清單 - GreaphQL API 實作 (done)
+- movie data CRUD  - GreaphQL API  (done)
+- user data CRUD  - GreaphQL API  (done)
+- user 收藏清單 - GreaphQL API  (done)
+
+RESTful API <a href="https://project-cheapskate.onrender.com/"><strong>swagger doc</strong></a> 免費 server 啟動需 1 分鐘左右
+
+GraphQL API <a href="https://studio.apollographql.com/graph/syu-yongsin-cheapskate/explorer?variant=v1"><strong>GraphQL studio</strong></a>
 
 ### 前端
-- react 環境 init (wip)
-- 首頁 - 最新上架電影 (wip)
-- 分頁 - 所有首輪電影 (wip)
-- 分頁 - 所有二輪電影 (wip)
-- 分頁 - 加入追蹤的電影 (wip)
+前端進度請見 <a href="https://github.com/yongsin0129/project-cheapskate-fe"><strong>前端專案連結</strong></a>
 
 ## 作者
 
