@@ -30,7 +30,10 @@ COPY package*.json ./
 RUN npm ci --production
 
 COPY --from=builder /usr/src/app/dist ./dist
-COPY --from=builder /usr/src/app/node_modules/.prisma /usr/src/app/node_modules/.prisma
+# generated prisma files
+COPY prisma ./prisma/
+
+RUN npx prisma generate
 
 EXPOSE 3000
 CMD [ "node", "dist/src/index.js" ]
