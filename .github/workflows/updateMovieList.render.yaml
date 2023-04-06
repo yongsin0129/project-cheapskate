@@ -1,5 +1,5 @@
-name: Call API-update movieList database
-
+name: call API to update movieList (render server)
+# render server 連接的資料庫是 elephant postgreSQL，預計做為備用後端及備用資料庫
 on:
   schedule:
     - cron: '0 */12 * * *'
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test_schedule:
+  call all update API:
     runs-on: ubuntu-latest
     steps:
       - name: Call addFirstRoundMovie
@@ -26,5 +26,3 @@ jobs:
       - name: Call updateSecondRoundMovie
         #         run: echo trigger updateSecondRoundMovie
         run: curl -X POST https://project-cheapskate.onrender.com/api/admin/updateSecondRoundMovie -d "passwordId=${{secrets.PASSWORDID}}"
-
-
