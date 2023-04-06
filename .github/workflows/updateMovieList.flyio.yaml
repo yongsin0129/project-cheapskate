@@ -1,0 +1,28 @@
+name: call API to update movieList (fly.io server)
+# fly.io server 連接的資料庫是 fly postgreSQL
+on:
+  schedule:
+    - cron: '0 */12 * * *'
+
+  # 允許你從 Action 頁簽上手動執行 workflow
+  workflow_dispatch:
+
+jobs:
+  call all update API:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call addFirstRoundMovie
+        #         run: echo trigger addFirstRoundMovie
+        run: curl -X POST https://cheapskate.fly.dev/api/admin/addFirstRoundMovie -d "passwordId=${{secrets.PASSWORDID}}"
+      - name: Call updateFirstRoundMovieList
+        #         run: echo trigger updateFirstRoundMovieList
+        run: curl -X POST https://cheapskate.fly.dev/api/admin/updateFirstRoundMovieList -d "passwordId=${{secrets.PASSWORDID}}"
+      - name: Call updateLeaveFirstRoundMovie
+        #         run: echo trigger updateLeaveFirstRoundMovie
+        run: curl -X POST https://cheapskate.fly.dev/api/admin/updateLeaveFirstRoundMovie -d "passwordId=${{secrets.PASSWORDID}}"
+      - name: Call addSecondRoundMovie
+        #         run: echo trigger addSecondRoundMovie
+        run: curl -X POST https://cheapskate.fly.dev/api/admin/addSecondRoundMovie -d "passwordId=${{secrets.PASSWORDID}}"
+      - name: Call updateSecondRoundMovie
+        #         run: echo trigger updateSecondRoundMovie
+        run: curl -X POST https://cheapskate.fly.dev/api/admin/updateSecondRoundMovie -d "passwordId=${{secrets.PASSWORDID}}"

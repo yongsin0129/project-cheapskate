@@ -2,7 +2,7 @@ name: Fly Deploy
 on:
   push:
     branches:
-      - F01-dockerImage
+      - master
 jobs:
   deploy:
     name: Deploy app
