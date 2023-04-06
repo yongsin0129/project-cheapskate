@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  call all update API:
+  call_all_update_API:
     runs-on: ubuntu-latest
     steps:
       - name: Call addFirstRoundMovie
