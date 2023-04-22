@@ -15,7 +15,7 @@ const doc = {
     title: '小氣鬼的電影追蹤工具', // by default: "REST API"
     description: '一个"小氣鬼"心目中的娛樂省錢方案！' // by default: ""
   },
-  host: 'https://cheapskate.fly.dev', // by default: "localhost:3000"
+  host: 'cheapskate.fly.dev', // by default: "localhost:3000"
   basePath: '/', // by default: "/"
   schemes: ['https'], // by default: ['http']
   consumes: [], // by default: ['application/json']
