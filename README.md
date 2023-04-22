@@ -17,7 +17,7 @@
 
   <h3 align="center">娛樂省錢第一解決方案</h3>
   <p align="center">
-    一个"小氣鬼"心目中的娛樂省錢方案！
+    一個"小氣鬼"心目中的娛樂省錢方案！
     <br />
     <br />
     探索本專案的檔案 »
@@ -34,10 +34,11 @@
   </p>
 </p>
 
-## 目录
+## 目錄
 
 - [緣起](#緣起)
 - [功能](#功能)
+- [整體架構](#整體架構) 
 - [開發項目拆分](#開發項目拆分)
   - [後端](#後端)
   - [前端](#前端)
@@ -56,26 +57,30 @@
 於是這支 app 就開始進入開發階段。
 
 ## 功能
+- 爬蟲每12小時更新一次資料庫的電影清單
 - 使用者可以創建自已的帳號
 - 使用者可以創建自已的電影收藏清單
 - 使用者可以查看最新上線的首輪電影
 - 使用者可以查看最新上線的二輪電影
-- 當收藏清單中的電影進入二輪 or 串流時，收到通知 (預計用 lineBot 來通知)
+- 當收藏清單中的電影進入二輪 or 串流時，收到通知 (預計用 lineBot 來通知，尚未實作)
+
+## 整體架構
+<p align="center">
+  <img src="public/cheapskate流程圖.jpg" alt="diagram" width="854" height="480">
+<p>
 
 ## 開發項目拆分
 ### 後端
-- 爬蟲抓取 movie data - Restful API  (done)
-- 資料庫更新 movie data logic - Restful API  (done)
-- user 會員系統 - Restful API  (done) 
-- swagger 建立 API 文檔 (done)
-- graphql API 結合 express (done)
-- movie data CRUD  - GreaphQL API  (done)
-- user data CRUD  - GreaphQL API  (done)
-- user 收藏清單 - GreaphQL API  (done)
+- 使用 爬蟲 + Cronjob 更新資料庫的電影清單  (done)
+- 會員系統 (done - 使用 RESTful 實作) 
+- 電影清單 (done - 使用 GraphQL 實作)
+- 使用者添加及刪除收藏清單 (done - 使用 GraphQL 實作)
+- swagger 建立 Restful API 文檔 (done)
+- GraphQL 建立 GraphQL API 文檔 (done)
 
-RESTful API <a href="https://project-cheapskate.onrender.com/"><strong>swagger doc</strong></a> 免費 server 啟動需 1 分鐘左右
+RESTful API 文檔 : <a href="https://cheapskate.fly.dev/"><strong>swagger doc</strong></a>
 
-GraphQL API <a href="https://studio.apollographql.com/graph/syu-yongsin-cheapskate/explorer?variant=v1"><strong>GraphQL studio</strong></a>
+GraphQL API 文檔 : <a href="https://studio.apollographql.com/graph/syu-yongsin-cheapskate/explorer?variant=v1"><strong>GraphQL studio</strong></a>
 
 ### 前端
 前端進度請見 <a href="https://github.com/yongsin0129/project-cheapskate-fe"><strong>前端專案連結</strong></a>
