@@ -15,7 +15,7 @@ const doc = {
     title: '小氣鬼的電影追蹤工具', // by default: "REST API"
     description: '一个"小氣鬼"心目中的娛樂省錢方案！' // by default: ""
   },
-  host: 'project-cheapskate-yongsin0129.vercel.app', // by default: "localhost:3000"
+  host: 'cheapskate.fly.dev', // by default: "localhost:3000"
   basePath: '/', // by default: "/"
   schemes: ['https'], // by default: ['http']
   consumes: [], // by default: ['application/json']
@@ -32,7 +32,7 @@ const doc = {
     },
     {
       name: 'movieList', // Tag name
-      description: '電影清單的路由 (棄用) 改用 graphql API 實現，當前域名下加 /graphql 進入 graphql landing page' // Tag description
+      description: '電影清單的路由 (棄用) 改用 GraphQL API 實現，當前域名下加 /graphql 即可進入 GraphQL landing page' // Tag description
     }
     // { ... }
   ],
