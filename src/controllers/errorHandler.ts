@@ -21,8 +21,7 @@ export default function errorHandler (
   if (err) {
     // 有設計並捕抓到的錯誤，會傳入一個 ResponseDTO
     if (err instanceof ResponseDTO) {
-      responseStatusCode =
-        err.responseStatusCode || responseStatusCode
+      responseStatusCode = err.responseStatusCode || responseStatusCode
       responseObj.error = err.responseObj.error
       responseObj.message = err.responseObj.message
     }

@@ -1,6 +1,8 @@
+.github/
 node_modules/
-.env
-.gitignore
-.vscode
-fly.toml
 public/
+.vscode/
+.env
+.env.example
+.gitignore
+fly.toml
