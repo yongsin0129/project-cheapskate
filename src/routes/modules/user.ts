@@ -1,8 +1,9 @@
 import express from 'express'
-const router = express.Router()
-import passport from 'passport'
+
 import { userController } from '../../controllers/user-controller'
 import { jwtAuthenticate } from '../../middleware/auth'
+
+const router = express.Router()
 
 /********************************************************************************
 *
