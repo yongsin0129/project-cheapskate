@@ -5,11 +5,6 @@ import checkPasswordID from '../../middleware/checkPasswordID'
 
 const router = express.Router()
 
-/********************************************************************************
-*
-          router
-*
-*********************************************************************************/
 router.post(
   '/addFirstRoundMovie',
 
