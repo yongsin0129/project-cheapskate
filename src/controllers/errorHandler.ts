@@ -1,5 +1,7 @@
 import { ErrorRequestHandler, Request, Response, NextFunction } from 'express'
+
 import ResponseDTO from '../dto/responseDTO'
+import * as Type from '../types'
 
 export default function errorHandler (
   err: ErrorRequestHandler,
@@ -8,7 +10,7 @@ export default function errorHandler (
   next: NextFunction
 ) {
   let responseStatusCode = 500
-  let responseObj: ResponseObj = {
+  let responseObj: Type.ResponseObj = {
     success: false,
     data: [],
     error: err,

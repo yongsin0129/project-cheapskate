@@ -2,12 +2,13 @@ import { Request, Response, NextFunction } from 'express'
 import { Status } from '@prisma/client'
 
 import * as crawler from '../helper/crawler'
+import * as Type from '../types'
 
 const URL_FirstRound = 'http://www.atmovies.com.tw/movie/now/' // 本期首輪
 const URL_SecondRound = 'http://www.atmovies.com.tw/movie/now2/' // 本期二輪
 
 // server log initialize
-const returnMessage: Log = {
+const returnMessage: Type.Log = {
   date: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/taipei' }),
   message: '',
   data: []

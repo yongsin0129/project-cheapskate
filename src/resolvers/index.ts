@@ -1,8 +1,10 @@
-import * as Type from '../generated/graphql'
 import { DateTimeResolver } from 'graphql-scalars'
 import { PrismaClient } from '@prisma/client'
 import { GraphQLError } from 'graphql'
-// apollo v4 error handling list : https://www.apollographql.com/docs/apollo-server/data/errors
+
+import * as Type from '../generated/graphql'
+import { MyContext } from '../types'
+
 const prisma = new PrismaClient()
 
 export const resolvers: Type.Resolvers = {

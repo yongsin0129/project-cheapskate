@@ -2,6 +2,8 @@ import Joi from 'joi'
 import jwt from 'jsonwebtoken'
 import { GraphQLError } from 'graphql'
 
+import * as Type from '../types'
+
 export interface LoginInputData {
   email: string
   password: string
@@ -40,7 +42,7 @@ export const loginValidation = (loginInputData: LoginInputData) => {
 export const decrypt_JWT_Token = (token: string | undefined) => {
   if (!token) return null
   try {
-    return jwt.verify(token, process.env.jwt_Secret!) as tokenPayload
+    return jwt.verify(token, process.env.jwt_Secret!) as Type.tokenPayload
   } catch (error) {
     throw new GraphQLError('jwt token verify failed')
   }

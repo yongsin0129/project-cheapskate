@@ -7,7 +7,6 @@
     "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "files": ["src/types/globalType.d.ts"],
   "include": ["src/**/*.ts"], // 納入編譯範圍
   "exclude": ["node_modules", "dist",".github",".vscode"] //不納入編譯範圍
 }

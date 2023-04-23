@@ -14,6 +14,7 @@ import { decrypt_JWT_Token } from './helper/validation'
 import swaggerFile from '../swagger_output.json'
 import { passportInit } from './config/passport'
 import { ApolloServerLandingPageConfig } from './config/ApolloServerLandingPageConfig'
+import * as Type from './types'
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -27,7 +28,7 @@ const booStrap = async () => {
 
   // Creates an ApolloServer.
   const httpServer = http.createServer(app)
-  const server = new ApolloServer<MyContext>({
+  const server = new ApolloServer<Type.MyContext>({
     typeDefs,
     resolvers,
     introspection: true,

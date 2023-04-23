@@ -1,15 +1,15 @@
-// / <reference path="../types/globalType.d.ts" />
 import cheerio from 'cheerio'
 import axios from 'axios'
 import { Prisma, PrismaClient, Status } from '@prisma/client'
+
+import * as Type from '../types'
+
 const prisma = new PrismaClient()
-
 const host = 'http://www.atmovies.com.tw'
-
 const today = new Date() // 記錄當下時間
 
 // server log initialize
-const serverLog: Log = {
+const serverLog: Type.Log = {
   date: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/taipei' }),
   message: null,
   data: []
@@ -29,7 +29,7 @@ export async function getDatabaseMovieList (status: { status: Status }[]) {
 
 // 利用爬蟲取得最新的電影清單 by URL , 變換 URL 可取得 首輪 或 二輪 電影清單
 export async function getOnlineMovieList (URL: string) {
-  const movieList: MovieData[] = []
+  const movieList: Type.MovieData[] = []
 
   try {
     const response = await axios.get(URL)
@@ -40,7 +40,11 @@ export async function getOnlineMovieList (URL: string) {
       const movieUrl = host + $(el).find('a').attr('href')
       const movieReleaseDate = formatReleaseDate($(el).find('span').text())
 
-      const movieData: MovieData = { movieTitle, movieUrl, movieReleaseDate }
+      const movieData: Type.MovieData = {
+        movieTitle,
+        movieUrl,
+        movieReleaseDate
+      }
       movieList.push(movieData)
     })
   } catch (error) {
@@ -56,7 +60,7 @@ export async function getOnlineMovieList (URL: string) {
 // FirstRound or SecondRound change to leaveStatus
 export async function updateMovieListStatus (
   databaseMovieList: Prisma.MovieListMaxAggregateOutputType[],
-  onlineMovieList: MovieData[],
+  onlineMovieList: Type.MovieData[],
   statusChange: Status
 ) {
   // log init
@@ -112,7 +116,7 @@ export async function updateMovieListStatus (
 // 將最新的電影首輪 or 二輪清單加入至資料庫中
 // add FirstRound or SecondRound
 export async function addNewMovieToDatabase (
-  onlineMovieList: MovieData[],
+  onlineMovieList: Type.MovieData[],
   databaseMovieList: Prisma.MovieListMaxAggregateOutputType[],
   statusChange: Status
 ) {
@@ -189,7 +193,7 @@ export async function addNewMovieToDatabase (
 // LeaveFirstRound or LeaveSecondRound change to nextStage
 export async function updateLeaveRoundToNextStatus (
   databaseMovieList: Prisma.MovieListMaxAggregateOutputType[],
-  onlineMovieList: MovieData[],
+  onlineMovieList: Type.MovieData[],
   statusChange: Status
 ) {
   // log init

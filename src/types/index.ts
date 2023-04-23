@@ -1,27 +1,27 @@
-interface MovieData {
+export interface MovieData {
   movieTitle: string
   movieUrl: string
   movieReleaseDate: string
 }
 
-interface Log {
+export interface Log {
   date: string
   message: string | null
   data: any[]
 }
 
-interface ResponseObj {
+export interface ResponseObj {
   success: Boolean
   data: any[]
   error: {}
   message: string
 }
 
-interface tokenPayload {
+export interface tokenPayload {
   id: string
   email: string
 }
 
-interface MyContext {
+export interface MyContext {
   token: tokenPayload | null
 }
