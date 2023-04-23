@@ -1,7 +1,7 @@
 import express from 'express'
 
 import { adminController } from '../../controllers/adminController'
-import checkPasswordID from '../../middleware/checkPasswordID'
+import checkPasswordID from '../../middleware/checkPassword'
 
 const router = express.Router()
 
