@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from 'express'
 import { Prisma, PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import ResponseClass from '../dto/response'
+
+import ResponseDTO from '../dto/responseDTO'
+
+const prisma = new PrismaClient()
 
 export async function userSignUp (req: Request) {
   try {
@@ -12,7 +14,7 @@ export async function userSignUp (req: Request) {
       where: { email: req.body.email }
     })
     if (user) {
-      return new ResponseClass({
+      return new ResponseDTO({
         responseStatusCode: 400,
         message: '此 email 已經註冊過了 !!'
       })
@@ -27,7 +29,8 @@ export async function userSignUp (req: Request) {
         }
       })
       createdUser.password = ''
-      return new ResponseClass({
+
+      return new ResponseDTO({
         responseStatusCode: 200,
         success: true,
         data: [{ createdUser }],
@@ -39,7 +42,7 @@ export async function userSignUp (req: Request) {
     if (error instanceof Error) {
       errorMessage = error.message
     }
-    return new ResponseClass({
+    return new ResponseDTO({
       responseStatusCode: 500,
       error: error,
       message: errorMessage || 'userSignIn 非預期錯誤'
@@ -54,7 +57,7 @@ export async function userSignIn (req: Request) {
       where: { email: req.body.email }
     })
     if (!user) {
-      return new ResponseClass({
+      return new ResponseDTO({
         responseStatusCode: 400,
         message: '無此使用者'
       })
@@ -63,17 +66,18 @@ export async function userSignIn (req: Request) {
     // 使用 bcrypt 比對使用者密碼
     const bcryptResult = await bcrypt.compare(req.body.password, user.password)
     if (bcryptResult === false) {
-      return new ResponseClass({
+      return new ResponseDTO({
         responseStatusCode: 400,
         message: '密碼錯誤'
       })
     } else {
       const tokenObject = { id: user.id, email: user.email }
       const jwtToken = jwt.sign(tokenObject, process.env.jwt_Secret!, {
-        expiresIn: '30 days'
+        expiresIn: '180 days'
       })
       user.password = ''
-      return new ResponseClass({
+      
+      return new ResponseDTO({
         responseStatusCode: 200,
         success: true,
         data: [{ user, jwtToken }],
@@ -85,7 +89,7 @@ export async function userSignIn (req: Request) {
     if (error instanceof Error) {
       errorMessage = error.message
     }
-    return new ResponseClass({
+    return new ResponseDTO({
       responseStatusCode: 500,
       error: error,
       message: errorMessage || 'userSignIn 非預期錯誤'

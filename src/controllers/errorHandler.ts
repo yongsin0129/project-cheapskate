@@ -1,5 +1,5 @@
 import { ErrorRequestHandler, Request, Response, NextFunction } from 'express'
-import ResponseClass from '../dto/response'
+import ResponseDTO from '../dto/responseDTO'
 
 export default function errorHandler (
   err: ErrorRequestHandler,
@@ -18,7 +18,7 @@ export default function errorHandler (
   // IF THERE WAS SOME ERROR THROWN BY PREVIOUS REQUEST
   if (err) {
     // 有設計並捕抓到的錯誤，會傳入一個 new ResponseClass instance
-    if (err instanceof ResponseClass) {
+    if (err instanceof ResponseDTO) {
       responseStatusCode =
         err.responseData?.responseStatusCode || responseStatusCode
       responseObj.error = err.responseObj

@@ -7,7 +7,7 @@ interface ResponseObj {
   message: string
 }
 
-export default class response {
+export default class responseDTO {
   public responseStatusCode: number
   public responseObj: ResponseObj
 

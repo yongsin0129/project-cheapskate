@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 
 import { userSignUp, userSignIn } from '../helper/userFunctions'
 import * as validator from '../helper/validation'
-import response from '../dto/response'
+import responseDTO from '../dto/responseDTO'
 
 export const userController = {
   register: async (req: Request, res: Response, next: NextFunction) => {
@@ -16,7 +16,7 @@ export const userController = {
     // 使用 validation
     const { error } = validator.registerValidation(registerInputData)
     if (error) {
-      return new response({
+      return new responseDTO({
         responseStatusCode: 400,
         error: error,
         message: error.details[0].message
@@ -38,7 +38,7 @@ export const userController = {
     // 使用 validation
     const { error } = validator.loginValidation(logInInputData)
     if (error)
-      return new response({
+      return new responseDTO({
         responseStatusCode: 400,
         error: error,
         message: error.details[0].message

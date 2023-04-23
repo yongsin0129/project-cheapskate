@@ -1,6 +1,6 @@
 import express from 'express'
 
-import Response from '../dto/response'
+import Response from '../dto/responseDTO'
 
 const router = express.Router()
 
