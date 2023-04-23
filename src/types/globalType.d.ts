@@ -6,7 +6,7 @@ interface MovieData {
 
 interface Log {
   date: string
-  message: string
+  message: string | null
   data: any[]
 }
 

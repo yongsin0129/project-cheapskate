@@ -1,24 +1,19 @@
 import { Request, Response, NextFunction } from 'express'
-import * as crawler from '../helper/crawler'
 import { Status } from '@prisma/client'
+
+import * as crawler from '../helper/crawler'
 
 const URL_FirstRound = 'http://www.atmovies.com.tw/movie/now/' // 本期首輪
 const URL_SecondRound = 'http://www.atmovies.com.tw/movie/now2/' // 本期二輪
 
-// return log initial
+// server log initialize
 const returnMessage: Log = {
   date: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/taipei' }),
   message: '',
   data: []
 }
 
-/********************************************************************************
-*
-          controllers
-*
-*********************************************************************************/
 export const adminController = {
-
   // 新增首輪 ( FirstRound )電影清單
   addFirstRoundMovie: async (
     req: Request,
@@ -138,7 +133,9 @@ export const adminController = {
 
     // 取得 資料庫中二輪的電影清單
     const secondRoundMovieList = await crawler.getDatabaseMovieList([
-      { status: Status.secondRound }
+      { status: Status.secondRound },
+      { status: Status.leaveSecondRound },
+      { status: Status.Streaming }
     ])
     console.log('成功執行資料庫取得二輪的電影清單')
 
