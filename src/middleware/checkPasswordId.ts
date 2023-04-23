@@ -1,6 +1,8 @@
 import express from 'express'
+
+import Response from '../dto/response'
+
 const router = express.Router()
-import Response from '../functions/response'
 
 router.use('/', async (req, res, next) => {
   // 確認 request 的 passwordId

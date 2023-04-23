@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import * as crawler from '../functions/crawler'
+import * as crawler from '../helper/crawler'
 import { Status } from '@prisma/client'
 
 const URL_FirstRound = 'http://www.atmovies.com.tw/movie/now/' // 本期首輪

@@ -3,7 +3,7 @@ import { Prisma, PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import ResponseClass from '../functions/response'
+import ResponseClass from '../dto/response'
 
 export async function userSignUp (req: Request) {
   try {

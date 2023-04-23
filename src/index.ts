@@ -10,7 +10,7 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import api from './routes'
 import { typeDefs } from './schemas'
 import { resolvers } from './resolvers'
-import { decrypt_JWT_Token } from './functions/validation'
+import { decrypt_JWT_Token } from './helper/validation'
 import swaggerFile from '../swagger_output.json'
 import { passportInit } from './config/passport'
 import { ApolloServerLandingPageConfig } from './config/ApolloServerLandingPageConfig'

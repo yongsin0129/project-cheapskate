@@ -1,5 +1,5 @@
 import { ErrorRequestHandler, Request, Response, NextFunction } from 'express'
-import ResponseClass from '../functions/response'
+import ResponseClass from '../dto/response'
 
 export default function errorHandler (
   err: ErrorRequestHandler,

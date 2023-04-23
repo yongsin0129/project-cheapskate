@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
-import * as validator from '../functions/validation'
-import response from '../functions/response'
-import { userSignUp, userSignIn } from '../functions/user-functions'
+
+import { userSignUp, userSignIn } from '../helper/userFunctions'
+import * as validator from '../helper/validation'
+import response from '../dto/response'
 
 export const userController = {
   register: async (req: Request, res: Response, next: NextFunction) => {
