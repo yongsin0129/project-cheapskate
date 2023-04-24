@@ -1,42 +1,34 @@
-console.log('server env.NODE_ENV : ' + process.env.NODE_ENV)
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
 import express from 'express'
-import api from './routes/routesIndex'
 import passport from 'passport'
-import { passportInit } from './config/passport'
 import cors from 'cors'
+import swaggerUi from 'swagger-ui-express'
+import http from 'http'
 import { ApolloServer } from '@apollo/server'
 import { expressMiddleware } from '@apollo/server/express4'
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
-import http from 'http'
-import swaggerUi from 'swagger-ui-express'
-import swaggerFile from '../swagger_output.json'
+
+import api from './routes'
 import { typeDefs } from './schemas'
 import { resolvers } from './resolvers'
-import {
-  ApolloServerPluginLandingPageLocalDefault,
-  ApolloServerPluginLandingPageProductionDefault
-} from '@apollo/server/plugin/landingPage/default'
-import { decrypt_JWT_Token } from './functions/validation'
+import { decrypt_JWT_Token } from './helper/validation'
+import swaggerFile from '../swagger_output.json'
+import { passportInit } from './config/passport'
+import { ApolloServerLandingPageConfig } from './config/ApolloServerLandingPageConfig'
+import * as Type from './types'
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 
 const PORT = process.env.PORT || 3000
-// Install a landing page plugin based on NODE_ENV
-const ApolloServerLandingPageConfig =
-  process.env.NODE_ENV === 'production'
-    ? ApolloServerPluginLandingPageProductionDefault({
-        graphRef: process.env.APOLLO_GRAPH_REF,
-        footer: false
-      })
-    : ApolloServerPluginLandingPageLocalDefault({ footer: false })
 
 const booStrap = async () => {
-  passportInit(passport)
+  // Creates an Express application.
   const app = express()
+
+  // Creates an ApolloServer.
   const httpServer = http.createServer(app)
-  const server = new ApolloServer<MyContext>({
-    // schema,
+  const server = new ApolloServer<Type.MyContext>({
     typeDefs,
     resolvers,
     introspection: true,
@@ -47,28 +39,35 @@ const booStrap = async () => {
   })
   await server.start()
 
+  // passport initialize
+  passportInit(passport)
+
+  // express config
   app.use(cors({ origin: '*' }))
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
 
-  // RESTful API
+  // route for RESTful API
   app.use('/api', api)
-  // GraphQL
+
+  // route for GraphQL landing page
   app.use(
     '/graphql',
     cors<cors.CorsRequest>(),
-    // bodyParser.json(), // 這行不需要，因為上面已經有 app.use(express.json())
     expressMiddleware(server, {
       context: async ({ req }) => ({
         token: decrypt_JWT_Token(req.headers.jwt_token as string)
       })
     })
   )
-  // swagger doc
+  
+  // route for swagger doc
   app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerFile))
-
+  
+  // HTTP server starts listening on a specified port.
   await new Promise<void>(resolve => httpServer.listen({ port: PORT }, resolve))
-  console.log(`🚀 Server ready at http://localhost:${PORT}/`)
+
+  console.log(`🚀 Server ready at http://localhost:${PORT}/ version:1.0.0.0`)
 }
 
 booStrap()

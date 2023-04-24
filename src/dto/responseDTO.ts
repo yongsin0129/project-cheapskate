@@ -1,8 +1,16 @@
 import { Response } from 'express'
 
-export default class response {
+interface ResponseObj {
+  success: Boolean
+  data: any[]
+  error: {}
+  message: string
+}
+
+export default class responseDTO {
   public responseStatusCode: number
   public responseObj: ResponseObj
+
   constructor (
     public responseData?: {
       responseStatusCode?: number

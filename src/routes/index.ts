@@ -1,4 +1,5 @@
 import express from 'express'
+
 import movieList from './modules/movieList'
 import admin from './modules/admin'
 import user from './modules/user'

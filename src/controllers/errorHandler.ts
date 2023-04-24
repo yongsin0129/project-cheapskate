@@ -1,5 +1,7 @@
 import { ErrorRequestHandler, Request, Response, NextFunction } from 'express'
-import ResponseClass from '../functions/response'
+
+import ResponseDTO from '../dto/responseDTO'
+import * as Type from '../types'
 
 export default function errorHandler (
   err: ErrorRequestHandler,
@@ -8,7 +10,7 @@ export default function errorHandler (
   next: NextFunction
 ) {
   let responseStatusCode = 500
-  let responseObj: ResponseObj = {
+  let responseObj: Type.ResponseObj = {
     success: false,
     data: [],
     error: err,
@@ -17,15 +19,14 @@ export default function errorHandler (
 
   // IF THERE WAS SOME ERROR THROWN BY PREVIOUS REQUEST
   if (err) {
-    // 有設計並捕抓到的錯誤，會傳入一個 new ResponseClass instance
-    if (err instanceof ResponseClass) {
-      responseStatusCode =
-        err.responseData?.responseStatusCode || responseStatusCode
-      responseObj.error = err.responseObj
+    // 有設計並捕抓到的錯誤，會傳入一個 ResponseDTO
+    if (err instanceof ResponseDTO) {
+      responseStatusCode = err.responseStatusCode || responseStatusCode
+      responseObj.error = err.responseObj.error
       responseObj.message = err.responseObj.message
     }
 
-    // IF THE SERROR IS REALTED TO JWT AUTHENTICATE, SET STATUS CODE TO 401 AND SET A CUSTOM MESSAGE FOR UNAUTHORIZED
+    // IF THE ERROR IS RELATED TO JWT AUTHENTICATE, SET STATUS CODE TO 401 AND SET A CUSTOM MESSAGE FOR UNAUTHORIZED
     else if (err.name === 'JsonWebTokenError') {
       responseStatusCode = 401
       responseObj.message =

@@ -1,14 +1,10 @@
 import express from 'express'
-const router = express.Router()
-import passport from 'passport'
-import { userController } from '../../controllers/user-controller'
+
+import { userController } from '../../controllers/userController'
 import { jwtAuthenticate } from '../../middleware/auth'
 
-/********************************************************************************
-*
-          router
-*
-*********************************************************************************/
+const router = express.Router()
+
 router.post(
   '/signUp',
 

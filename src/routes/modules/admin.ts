@@ -1,12 +1,10 @@
 import express from 'express'
+
+import { adminController } from '../../controllers/adminController'
+import checkPasswordID from '../../middleware/checkPasswordID'
+
 const router = express.Router()
-import { adminController } from '../../controllers/admin-controller'
-import checkPasswordId from '../../middleware/checkPasswordId'
-/********************************************************************************
-*
-          router
-*
-*********************************************************************************/
+
 router.post(
   '/addFirstRoundMovie',
 
@@ -29,7 +27,7 @@ router.post(
 
   */
 
-  checkPasswordId,
+  checkPasswordID,
   adminController.addFirstRoundMovie
 )
 
@@ -55,7 +53,7 @@ router.post(
 
   */
 
-  checkPasswordId,
+  checkPasswordID,
   adminController.updateFirstRoundMovieList
 )
 
@@ -81,7 +79,7 @@ router.post(
 
   */
 
-  checkPasswordId,
+  checkPasswordID,
   adminController.updateLeaveFirstRoundMovie
 )
 
@@ -107,7 +105,7 @@ router.post(
 
   */
 
-  checkPasswordId,
+  checkPasswordID,
   adminController.addSecondRoundMovie
 )
 
@@ -133,7 +131,7 @@ router.post(
 
   */
 
-  checkPasswordId,
+  checkPasswordID,
   adminController.updateSecondRoundMovie
 )
 export default router
