@@ -6,13 +6,19 @@ import * as Type from '../types'
 
 const prisma = new PrismaClient()
 const host = 'http://www.atmovies.com.tw'
-const today = new Date() // 記錄當下時間
 
-// server log initialize
-const serverLog: Type.Log = {
-  date: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/taipei' }),
-  message: null,
-  data: []
+// server log class
+class ServerLog implements Type.Log {
+  constructor (
+    public message: string,
+    public date = new Date().toLocaleString('zh-TW', {
+      timeZone: 'Asia/taipei'
+    }),
+    public data: any[] = [],
+    public today = new Date()
+  ) {
+    this.message = message
+  }
 }
 
 // 取得資料庫中的電影清單 by status
@@ -63,9 +69,8 @@ export async function updateMovieListStatus (
   onlineMovieList: Type.MovieData[],
   statusChange: Status
 ) {
-  // log init
-  serverLog.message = `本次新增至資料庫中的 ${statusChange} 電影`
-  serverLog.data = []
+  // server log init
+  const serverLog = new ServerLog(`本次新增至資料庫中的 ${statusChange} 電影`)
 
   // 製做一個最新網路清單的 string 用來比對
   const onlineMovieList_Title_ReleaseDate = JSON.stringify(
@@ -120,9 +125,8 @@ export async function addNewMovieToDatabase (
   databaseMovieList: Prisma.MovieListMaxAggregateOutputType[],
   statusChange: Status
 ) {
-  // serverLog message
-  serverLog.message = `本次新增至資料庫中的 ${statusChange} 電影`
-  serverLog.data = []
+  // server log init
+  const serverLog = new ServerLog(`本次新增至資料庫中的 ${statusChange} 電影`)
 
   // 製做一個現有資料庫的 string 用來比對
   const databaseMovieList_Title_ReleaseDate = JSON.stringify(
@@ -145,7 +149,8 @@ export async function addNewMovieToDatabase (
 
     // 再檢查這個電影是不是口碑場 ( 上映日期在未來 ) ，若是則跳過
     const givenDate = new Date(movieData.movieReleaseDate)
-    if (givenDate > today) {
+
+    if (givenDate > serverLog.today) {
       console.log('口碑場，不加入資料庫中 : ' + title_releaseDate)
       continue
     }
@@ -196,9 +201,8 @@ export async function updateLeaveRoundToNextStatus (
   onlineMovieList: Type.MovieData[],
   statusChange: Status
 ) {
-  // log init
-  serverLog.message = `本次新增至資料庫中的 ${statusChange} 電影`
-  serverLog.data = []
+  // server log init
+  const serverLog = new ServerLog(`本次新增至資料庫中的 ${statusChange} 電影`)
 
   // 製做一個現有資料庫的 string 用來比對
   const databaseMovieList_Title_ReleaseDate = JSON.stringify(
