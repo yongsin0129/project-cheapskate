@@ -50,7 +50,7 @@ export async function getOnlineMovieList (URL: string) {
     const movieList: Type.MovieData[] = []
 
     const responseTest = await AxiosInstance.get('')
-    console.log(responseTest)
+    console.log(responseTest.status)
 
     const response = await AxiosInstance.get(URL)
     console.log('成功使用 axios 取得 response !!')
