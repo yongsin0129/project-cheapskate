@@ -134,4 +134,31 @@ router.post(
   checkPasswordID,
   adminController.updateSecondRoundMovie
 )
+
+router.post(
+  '/updateDB',
+
+  /*  
+  #swagger.summary = '僅在 DB 錯誤時使用，將 DB 所有資料做檢查，更新為 首輪 or 二輪'
+  #swagger.parameters['passwordId'] = {
+                in: 'body',
+                description: '每次呼叫爬蟲更新都需要密碼',
+                required: true,
+                schema: {"passwordId": "string"}
+                }
+  #swagger.responses[200] = {
+            description: 'update successfully',
+            schema: { $ref: '#/definitions/updateMovieListResponse'}
+          }
+  #swagger.responses[400] = {
+            description: 'bad request',
+            schema: { $ref: '#/definitions/response400' }
+          }
+
+  */
+
+  checkPasswordID,
+  adminController.updateDB
+)
+
 export default router
