@@ -2,6 +2,7 @@ import cheerio from 'cheerio'
 import axios from 'axios'
 import { Prisma, PrismaClient, Status } from '@prisma/client'
 
+import AxiosInstance from './getAxios'
 import * as Type from '../types'
 
 const prisma = new PrismaClient()
@@ -48,7 +49,9 @@ export async function getOnlineMovieList (URL: string) {
   try {
     const movieList: Type.MovieData[] = []
 
-    const response = await axios.get(URL)
+
+    const response = await AxiosInstance.get(URL)
+    console.log('成功使用 axios 取得 response !!')
     const $ = cheerio.load(response.data)
 
     $('ul.filmListPA li').each((i, el) => {
