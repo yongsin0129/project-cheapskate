@@ -16,7 +16,7 @@ RUN npx prisma generate
 
 RUN npm run build
 
-FROM node:slim
+FROM node:16.12-alpine
 
 ENV NODE_ENV production
 USER node
