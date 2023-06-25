@@ -186,5 +186,55 @@ export const adminController = {
     returnMessage.data.push(newUpdateDataLog)
 
     res.send(returnMessage)
+  },
+
+  // 將資料庫中所有電影取出來比對，將舊資料更新為首輪
+  updateDB: async (req: Request, res: Response, next: NextFunction) => {
+    console.log('updateDB for first round')
+    const returnMessage = new ReturnMessage(
+      '將資料庫中所有電影取出來比對，將舊資料更新為首輪'
+    )
+
+    // 取得 資料庫中 所有電影清單，首輪、二輪除外
+    const databaseMovieList = await crawler.getDatabaseMovieList([
+      { status: Status.leaveFirstRound },
+      { status: Status.leaveSecondRound },
+      { status: Status.Streaming }
+    ])
+    console.log('成功執行資料庫的電影清單 - 所有電影清單，首輪、二輪除外')
+
+    // 取得 網站上最新的首輪電影清單
+    const onlineMovieList_FirstRound = await crawler.getOnlineMovieList(
+      URL_FirstRound
+    )
+    console.log('成功執行網站爬蟲取 "首輪" 的電影清單')
+
+    // 將資料庫中所有電影取出來比對，將錯誤資料更新為首輪 or 二輪
+    const newInputDataLog_FirstRound =
+      await crawler.updateAllMovieToFirstOrSecond(
+        databaseMovieList,
+        onlineMovieList_FirstRound,
+        Status.firstRound
+      )
+
+    // 取得 網站上最新的二輪電影清單
+    const onlineMovieList_SecondRound = await crawler.getOnlineMovieList(
+      URL_SecondRound
+    )
+    console.log('成功執行網站爬蟲取 "二輪" 的電影清單')
+
+    // 將資料庫中所有電影取出來比對，將錯誤資料更新為首輪 or 二輪
+    const newInputDataLog_SecondRound =
+      await crawler.updateAllMovieToFirstOrSecond(
+        databaseMovieList,
+        onlineMovieList_SecondRound,
+        Status.secondRound
+      )
+
+    // returnMessage
+    returnMessage.data.push(newInputDataLog_FirstRound)
+    returnMessage.data.push(newInputDataLog_SecondRound)
+
+    res.send(returnMessage)
   }
 }
