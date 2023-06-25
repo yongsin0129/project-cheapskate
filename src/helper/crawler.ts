@@ -15,7 +15,8 @@ class ServerLog implements Type.Log {
       timeZone: 'Asia/taipei'
     }),
     public data: any[] = [],
-    public today = new Date()
+    public today = new Date(),
+    public success: boolean = true
   ) {
     this.message = message
   }
@@ -23,21 +24,30 @@ class ServerLog implements Type.Log {
 
 // 取得資料庫中的電影清單 by status
 export async function getDatabaseMovieList (status: { status: Status }[]) {
-  const movieList = await prisma.movieList.findMany({
-    where: {
-      OR: [...status]
-    }
-  })
-  await prisma.$disconnect()
+  const serverLog = new ServerLog(`function : getDatabaseMovieList`)
 
-  return movieList
+  try {
+    const movieList = await prisma.movieList.findMany({
+      where: {
+        OR: [...status]
+      }
+    })
+    await prisma.$disconnect()
+    serverLog.data = movieList
+  } catch (error) {
+    serverLog.success = false
+    serverLog.message = JSON.stringify(error)
+  }
+  return serverLog
 }
 
 // 利用爬蟲取得最新的電影清單 by URL , 變換 URL 可取得 首輪 或 二輪 電影清單
 export async function getOnlineMovieList (URL: string) {
-  const movieList: Type.MovieData[] = []
+  const serverLog = new ServerLog(`function : getOnlineMovieList`)
 
   try {
+    const movieList: Type.MovieData[] = []
+
     const response = await axios.get(URL)
     const $ = cheerio.load(response.data)
 
@@ -53,13 +63,14 @@ export async function getOnlineMovieList (URL: string) {
       }
       movieList.push(movieData)
     })
+    await prisma.$disconnect()
+    serverLog.data = movieList
   } catch (error) {
     console.log('網站爬蟲出現問題')
-    console.log(error)
+    serverLog.success = false
+    serverLog.message = JSON.stringify(error)
   }
-  await prisma.$disconnect()
-
-  return movieList
+  return serverLog
 }
 
 // 遍歷資料庫中的電影清單(首輪及二輪)比對最新網路清單，並更新到指定狀態 (leave)
