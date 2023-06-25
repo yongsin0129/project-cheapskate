@@ -4,8 +4,9 @@ import { Status } from '@prisma/client'
 import * as crawler from '../helper/crawler'
 import * as Type from '../types'
 
-const URL_FirstRound = 'http://www.atmovies.com.tw/movie/now/' // 本期首輪
-const URL_SecondRound = 'http://www.atmovies.com.tw/movie/now2/' // 本期二輪
+// const host = 'http://www.atmovies.com.tw/movie'
+const URL_FirstRound = '/now' // 本期首輪
+const URL_SecondRound = '/now2' // 本期二輪
 
 // returnMessage class
 class ReturnMessage implements Type.Log {
