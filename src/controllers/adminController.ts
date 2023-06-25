@@ -7,11 +7,17 @@ import * as Type from '../types'
 const URL_FirstRound = 'http://www.atmovies.com.tw/movie/now/' // 本期首輪
 const URL_SecondRound = 'http://www.atmovies.com.tw/movie/now2/' // 本期二輪
 
-// server log initialize
-const returnMessage: Type.Log = {
-  date: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/taipei' }),
-  message: '',
-  data: []
+// returnMessage class
+class ReturnMessage implements Type.Log {
+  constructor (
+    public message: string,
+    public date = new Date().toLocaleString('zh-TW', {
+      timeZone: 'Asia/taipei'
+    }),
+    public data: any[] = []
+  ) {
+    this.message = message
+  }
 }
 
 export const adminController = {
@@ -21,8 +27,8 @@ export const adminController = {
     res: Response,
     next: NextFunction
   ) => {
-    returnMessage.message = '新增首輪清單'
     console.log('addFirstRoundMovie')
+    const returnMessage = new ReturnMessage('新增首輪清單')
 
     // 取得 資料庫中 所有的 電影清單
     const databaseMovieList = await crawler.getDatabaseMovieList([
@@ -46,7 +52,6 @@ export const adminController = {
     )
 
     // returnMessage
-    returnMessage.data = []
     returnMessage.data.push(newInputDataLog)
 
     res.send(returnMessage)
@@ -58,8 +63,8 @@ export const adminController = {
     res: Response,
     next: NextFunction
   ) => {
-    returnMessage.message = '資料庫中首輪清單更新'
     console.log('updateFirstRoundMovieList')
+    const returnMessage = new ReturnMessage('資料庫中首輪清單更新')
 
     // 取得 資料庫中首輪的電影清單
     const databaseMovieList = await crawler.getDatabaseMovieList([
@@ -79,7 +84,6 @@ export const adminController = {
     )
 
     // returnMessage
-    returnMessage.data = []
     returnMessage.data.push(newUpdateDataLog)
 
     res.send(returnMessage)
@@ -91,8 +95,8 @@ export const adminController = {
     res: Response,
     next: NextFunction
   ) => {
-    returnMessage.message = ' 離開首輪清單 更新'
     console.log('updateLeaveFirstRoundMovie')
+    const returnMessage = new ReturnMessage('離開首輪清單 更新')
 
     // 取得 資料庫中離開首輪的電影清單
     const leaveFirstRoundMovieList = await crawler.getDatabaseMovieList([
@@ -113,7 +117,6 @@ export const adminController = {
       )
 
     // returnMessage
-    returnMessage.data = []
     returnMessage.data.push(newUpdateDataInLeaveFirstRound)
 
     res.send(returnMessage)
@@ -125,8 +128,8 @@ export const adminController = {
     res: Response,
     next: NextFunction
   ) => {
-    returnMessage.message = '新增二輪清單'
     console.log('addSecondRoundMovie')
+    const returnMessage = new ReturnMessage('新增二輪清單')
 
     // 取得 網站上最新的二輪電影清單
     const onlineMovieList = await crawler.getOnlineMovieList(URL_SecondRound)
@@ -148,7 +151,6 @@ export const adminController = {
     )
 
     // returnMessage
-    returnMessage.data = []
     returnMessage.data.push(newInputDataLog)
 
     res.send(returnMessage)
@@ -160,8 +162,8 @@ export const adminController = {
     res: Response,
     next: NextFunction
   ) => {
-    returnMessage.message = '二輪清單 更新'
     console.log('updateSecondRoundMovie')
+    const returnMessage = new ReturnMessage('二輪清單 更新')
 
     // 取得 網站上最新的二輪電影清單
     const onlineMovieList = await crawler.getOnlineMovieList(URL_SecondRound)
@@ -181,7 +183,6 @@ export const adminController = {
     )
 
     // returnMessage
-    returnMessage.data = []
     returnMessage.data.push(newUpdateDataLog)
 
     res.send(returnMessage)
