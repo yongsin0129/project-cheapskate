@@ -57,9 +57,9 @@ export async function getOnlineMovieList (URL: string) {
     const $ = cheerio.load(response.data)
 
     $('ul.filmListPA li').each((i, el) => {
-      const movieTitle = $(el).find('a').text()
+      const movieTitle = $(el).find('a').text().trim()
       const movieUrl = host + $(el).find('a').attr('href')
-      const movieReleaseDate = formatReleaseDate($(el).find('span').text())
+      const movieReleaseDate = formatReleaseDate($(el).find('span').text().trim())
 
       const movieData: Type.MovieData = {
         movieTitle,
