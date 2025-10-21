@@ -66,6 +66,7 @@ export async function getOnlineMovieList (URL: string) {
         movieUrl,
         movieReleaseDate
       }
+      console.info(`${movieTitle} ${movieReleaseDate}`)
       movieList.push(movieData)
     })
     await prisma.$disconnect()
